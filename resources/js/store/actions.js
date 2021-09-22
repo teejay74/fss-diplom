@@ -56,5 +56,15 @@ export default {
         axios.post('/api/get-seat', payload).then(response => {
             commit('showSeats', response.data)
         }).catch(error => console.error(error));
-    }
+    },
+    saveSessions({commit}, payload) {
+        axios.post('/api/save-sessions', payload).then(response => {
+            commit('showSessions', response.data)
+        }).catch(error => console.error(error));
+    },
+    getSessions({commit}, payload) {
+        axios.post('/api/get-sessions', payload).then(response => {
+            commit('showSessions', response.data)
+        }).catch(error => console.error(error));
+    },
 }

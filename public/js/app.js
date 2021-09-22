@@ -18548,6 +18548,7 @@ __webpack_require__.r(__webpack_exports__);
     addSession: function addSession() {
       this.$store.state.ShowTimeBuffer.movieId = this.item.id;
       this.$store.state.ShowTimeBuffer.movieName = this.item.name;
+      this.$store.state.ShowTimeBuffer.duration = this.item.duration;
       this.$store.state.Modals.addShowTime.opened = true;
     }
   }
@@ -18692,10 +18693,16 @@ __webpack_require__.r(__webpack_exports__);
   name: "SessionGridComponent",
   created: function created() {
     this.$store.dispatch('getMovie');
+    this.$store.dispatch('getSessions');
   },
   components: {
     MovieItemComponent: _MovieItemComponent__WEBPACK_IMPORTED_MODULE_0__.default,
     SessionGridHalls: _SessionGridHalls__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  methods: {
+    saveGrid: function saveGrid() {
+      this.$store.dispatch('saveSessions', this.$store.state.ShowTimeList);
+    }
   }
 });
 
@@ -18716,7 +18723,26 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "SessionGridHalls",
-  props: ['hallItem']
+  props: ['hallItem'],
+  components: {
+    ShowTimeMovieItem: _ShowTimeMovieItem__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  methods: {
+    filteredHall: function filteredHall() {
+      var _this = this;
+
+      return this.$store.state.ShowTimeList.filter(function (n) {
+        return n.hall_id === _this.hallItem.id;
+      });
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    console.log(this.$store.state.ShowTimeList.filter(function (n) {
+      return n.hall_id === _this2.hallItem.id;
+    }));
+  }
 });
 
 /***/ }),
@@ -18733,7 +18759,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "ShowTimeMovieItem"
+  name: "ShowTimeMovieItem",
+  props: ['session'],
+  data: function data() {
+    return {
+      style: ''
+    };
+  },
+  created: function created() {
+    var minutes = this.session.start_time.split(':');
+    this.style = 'width:' + 100 * this.session.movie_show_duration / 1440 + '%;' + "left:" + 100 * (+minutes[0] * 60 + +minutes[1]) / 1440 + "%;";
+  }
 });
 
 /***/ }),
@@ -18751,9 +18787,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ShowTimePopupAdd",
+  data: function data() {
+    return {
+      select: this.defaultSelect(),
+      startTime: '00:00'
+    };
+  },
   methods: {
     addShowTime: function addShowTime() {
-      console.log('Отмена');
+      var sessionMovie = {
+        hall_id: this.select,
+        movie_id: this.$store.state.ShowTimeBuffer.movieId,
+        movie_name: this.$store.state.ShowTimeBuffer.movieName,
+        start_time: this.startTime,
+        movie_show_duration: this.$store.state.ShowTimeBuffer.duration
+      };
+      this.$store.state.ShowTimeList.push(sessionMovie);
+      this.select = this.$store.state.HallList[0].id;
+      this.startTime = '00:00';
+      this.$store.state.Modals.addShowTime.opened = false;
+    },
+    defaultSelect: function defaultSelect() {
+      if (this.$store.state.HallList[0]) {
+        return this.$store.state.HallList[0].id;
+      } else {
+        return '';
+      }
     }
   }
 });
@@ -19831,7 +19890,6 @@ var _hoisted_2 = {
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
     "class": "conf-step__movie",
-    draggable: "true",
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.addSession && $options.addSession.apply($options, arguments);
     })
@@ -20027,16 +20085,13 @@ var _hoisted_5 = {
 var _hoisted_6 = {
   "class": "conf-step__seances"
 };
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("fieldset", {
+var _hoisted_7 = {
   "class": "conf-step__buttons text-center"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+};
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
   "class": "conf-step__button conf-step__button-regular"
-}, "Отмена"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-  type: "submit",
-  value: "Сохранить",
-  "class": "conf-step__button conf-step__button-accent"
-})], -1
+}, "Отмена", -1
 /* HOISTED */
 );
 
@@ -20070,7 +20125,14 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     , ["hallItem"]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]), _hoisted_7])]);
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("fieldset", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "submit",
+    value: "Сохранить",
+    "class": "conf-step__button conf-step__button-accent",
+    onClick: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.saveGrid && $options.saveGrid.apply($options, arguments);
+    }, ["prevent"]))
+  })])])]);
 });
 
 /***/ }),
@@ -20099,19 +20161,28 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "conf-step__seances-title"
 };
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_3 = {
   "class": "conf-step__seances-timeline"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ShowTimeMovieItem v-for=\"(movie,id) in $store.state.ShowTimeList\" :key=\"id\" :movie=\"movie\" :hallItem=\"hallItem\"></ShowTimeMovieItem>")], -1
-/* HOISTED */
-);
+};
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ShowTimeMovieItem = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ShowTimeMovieItem");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.hallItem.name), 1
   /* TEXT */
-  ), _hoisted_3]);
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredHall(), function (session, id) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_ShowTimeMovieItem, {
+      key: id,
+      session: session,
+      hallItem: $props.hallItem
+    }, null, 8
+    /* PROPS */
+    , ["session", "hallItem"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])]);
 });
 
 /***/ }),
@@ -20135,30 +20206,27 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3e2baabe");
 
 var _hoisted_1 = {
-  "class": "conf-step__seances-movie",
-  style: {
-    "width": "60px",
-    "background-color": "rgb(133, 255, 137)",
-    "left": "360px"
-  }
-};
-
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "conf-step__seances-movie-title"
-}, "Фильм", -1
-/* HOISTED */
-);
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+};
+var _hoisted_2 = {
   "class": "conf-step__seances-movie-start"
-}, "10:00", -1
-/* HOISTED */
-);
+};
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [_hoisted_2, _hoisted_3]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+    "class": "conf-step__seances-movie",
+    style: [{
+      "background-color": "rgb(133, 255, 137)"
+    }, $data.style]
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.session.movie_name), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.session.start_time), 1
+  /* TEXT */
+  )], 4
+  /* STYLE */
+  );
 });
 
 /***/ }),
@@ -20211,33 +20279,19 @@ var _hoisted_8 = {
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Название зала ");
 
 var _hoisted_10 = {
-  "class": "conf-step__input",
-  name: "hall",
-  required: ""
-};
-
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "class": "conf-step__label conf-step__label-fullsize",
   "for": "name"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Время начала "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-  "class": "conf-step__input",
-  type: "time",
-  value: "00:00",
-  name: "start_time",
-  required: ""
-})], -1
-/* HOISTED */
-);
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Время начала ");
 
 var _hoisted_12 = {
   "class": "conf-step__buttons text-center"
 };
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-  type: "submit",
-  value: "Добавить",
-  "class": "conf-step__button conf-step__button-accent"
-}, null, -1
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  "class": "conf-step__button conf-step__button-regular"
+}, "Отменить", -1
 /* HOISTED */
 );
 
@@ -20256,22 +20310,47 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return _ctx.$store.state.Modals.addShowTime.opened = false;
     })
-  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$store.state.HallList, function (hall, id) {
+  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+    "class": "conf-step__input",
+    name: "hall",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.select = $event;
+    }),
+    required: ""
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$store.state.HallList, function (hall, id) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
       key: hall.id,
       hall: hall,
+      value: hall.id,
       selected: id === 0
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hall.name), 9
     /* TEXT, PROPS */
-    , ["hall", "selected"]);
+    , ["hall", "value", "selected"]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])]), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-    "class": "conf-step__button conf-step__button-regular",
-    onClick: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+  ))], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.select]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "conf-step__input",
+    type: "time",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.startTime = $event;
+    }),
+    onChange: _cache[4] || (_cache[4] = function () {
+      return _ctx.timeChange && _ctx.timeChange.apply(_ctx, arguments);
+    }),
+    name: "start_time",
+    required: ""
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.startTime]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "submit",
+    value: "Добавить",
+    "class": "conf-step__button conf-step__button-accent",
+    onClick: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.addShowTime && $options.addShowTime.apply($options, arguments);
     }, ["prevent"]))
-  }, "Отменить")])])])])])], 2
+  }), _hoisted_13])])])])])], 2
   /* CLASS */
   );
 });
@@ -20395,7 +20474,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_SalesManagementComponent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SalesManagementComponent");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MovieAddPopupComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HallAddPopupComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ShowTimePopupAdd), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ShowTimePopupRemove), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HallControlComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HallConfigComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SessionGridComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PriceConfigComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SalesManagementComponent)])], 64
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MovieAddPopupComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HallAddPopupComponent), _ctx.$store.state.LoadingHall ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_ShowTimePopupAdd, {
+    key: 0
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ShowTimePopupRemove), _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HallControlComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HallConfigComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SessionGridComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PriceConfigComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SalesManagementComponent)])], 64
   /* STABLE_FRAGMENT */
   );
 });
@@ -21008,6 +21089,22 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (error) {
       return console.error(error);
     });
+  },
+  saveSessions: function saveSessions(_ref11, payload) {
+    var commit = _ref11.commit;
+    axios.post('/api/save-sessions', payload).then(function (response) {
+      commit('showSessions', response.data);
+    })["catch"](function (error) {
+      return console.error(error);
+    });
+  },
+  getSessions: function getSessions(_ref12, payload) {
+    var commit = _ref12.commit;
+    axios.post('/api/get-sessions', payload).then(function (response) {
+      commit('showSessions', response.data);
+    })["catch"](function (error) {
+      return console.error(error);
+    });
   }
 });
 
@@ -21067,6 +21164,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   getHall: function getHall(state, payload) {
     state.HallList = payload;
+    state.LoadingHall = true;
   },
   showCurrentHall: function showCurrentHall(state, payload) {
     state.CurrentHall = payload;
@@ -21074,6 +21172,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   showSeats: function showSeats(state, payload) {
     state.Seats = payload;
+  },
+  showSessions: function showSessions(state, payload) {
+    console.log(state.ShowTimeList);
+    state.ShowTimeList = payload;
+    console.log(state.ShowTimeList);
   }
 });
 
@@ -21098,6 +21201,7 @@ __webpack_require__.r(__webpack_exports__);
     api_token: null,
     name: null
   },
+  LoadingHall: false,
   MoviesList: [],
   HallList: [],
   CurrentHall: [],

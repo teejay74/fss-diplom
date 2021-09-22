@@ -21,20 +21,20 @@ export default {
 
     },
     getHall(state, payload) {
-
         state.HallList = payload
+        state.LoadingHall = true
 
     },
     showCurrentHall(state, payload) {
         state.CurrentHall = payload
         state.CurrentHall.seatsStatus = []
-
-
     },
     showSeats(state, payload) {
-
         state.Seats = payload
-
-
+    },
+    showSessions(state, payload) {
+        console.log(state.ShowTimeList)
+        state.ShowTimeList = payload
+        console.log(state.ShowTimeList)
     }
 }

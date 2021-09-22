@@ -2,7 +2,7 @@
 
     <MovieAddPopupComponent></MovieAddPopupComponent>
     <HallAddPopupComponent></HallAddPopupComponent>
-    <ShowTimePopupAdd></ShowTimePopupAdd>
+    <ShowTimePopupAdd v-if="$store.state.LoadingHall"></ShowTimePopupAdd>
     <ShowTimePopupRemove></ShowTimePopupRemove>
 
     <header class="page-header">

@@ -6,6 +6,7 @@ export default {
         api_token: null,
         name: null
     },
+    LoadingHall: false,
     MoviesList: [],
     HallList: [],
     CurrentHall: [],

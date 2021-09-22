@@ -24,7 +24,7 @@
 
             <fieldset class="conf-step__buttons text-center">
                 <button class="conf-step__button conf-step__button-regular">Отмена</button>
-                <input type="submit" value="Сохранить" class="conf-step__button conf-step__button-accent" >
+                <input type ="submit" value="Сохранить" class="conf-step__button conf-step__button-accent" @click.prevent="saveGrid">
             </fieldset>
         </div>
     </section>
@@ -38,11 +38,17 @@
         name: "SessionGridComponent",
         created() {
             this.$store.dispatch('getMovie')
+            this.$store.dispatch('getSessions')
         },
         components: {
             MovieItemComponent,
             SessionGridHalls
         },
+        methods: {
+            saveGrid() {
+                this.$store.dispatch('saveSessions', this.$store.state.ShowTimeList)
+            }
+        }
 
     }
 </script>

@@ -13,19 +13,25 @@
                     <form accept-charset="utf-8">
                         <label class="conf-step__label conf-step__label-fullsize" for="hall">
                             Название зала
-                            <select class="conf-step__input" name="hall" required>
-                                <option v-for="(hall,id) in $store.state.HallList" :key="hall.id" :hall="hall" :selected="id===0">{{hall.name}}</option>
+                            <select class="conf-step__input" name="hall" v-model="select" required>
+                                <option v-for="(hall,id) in $store.state.HallList"
+                                        :key="hall.id"
+                                        :hall="hall"
+                                        :value="hall.id"
+                                        :selected="id===0"
+
+                                >{{hall.name}}</option>
                               </select>
                         </label>
                         <label class="conf-step__label conf-step__label-fullsize" for="name">
                             Время начала
-                            <input class="conf-step__input" type="time" value="00:00" name="start_time" required>
+                            <input class="conf-step__input" type="time" v-model="startTime" @change="timeChange" name="start_time" required>
                         </label>
 
 
                         <div class="conf-step__buttons text-center">
-                            <input type="submit" value="Добавить" class="conf-step__button conf-step__button-accent" >
-                            <button class="conf-step__button conf-step__button-regular" @click.prevent="addShowTime">Отменить</button>
+                            <input type="submit" value="Добавить" class="conf-step__button conf-step__button-accent" @click.prevent="addShowTime">
+                            <button class="conf-step__button conf-step__button-regular" >Отменить</button>
                         </div>
                     </form>
                 </div>
@@ -37,10 +43,39 @@
 <script>
     export default {
         name: "ShowTimePopupAdd",
+        data() {
+            return {
+               select: this.defaultSelect(),
+               startTime: '00:00'
+            }
+        },
+
+
+
         methods: {
             addShowTime() {
-                console.log('Отмена')
+                const sessionMovie = {
+                    hall_id: this.select,
+                    movie_id: this.$store.state.ShowTimeBuffer.movieId,
+                    movie_name: this.$store.state.ShowTimeBuffer.movieName,
+                    start_time: this.startTime,
+                    movie_show_duration: this.$store.state.ShowTimeBuffer.duration
+                }
+                this.$store.state.ShowTimeList.push(sessionMovie)
+                this.select = this.$store.state.HallList[0].id
+                this.startTime = '00:00'
+                this.$store.state.Modals.addShowTime.opened = false
+            },
+            defaultSelect() {
+                if(this.$store.state.HallList[0]) {
+                    return this.$store.state.HallList[0].id
+                } else {
+                    return ''
+                }
+
             }
+
+
         }
     }
 </script>

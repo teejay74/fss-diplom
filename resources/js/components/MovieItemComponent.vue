@@ -1,6 +1,6 @@
 <template>
 
-        <div class="conf-step__movie" draggable="true"  @click="addSession">
+        <div class="conf-step__movie"  @click="addSession">
             <img class="conf-step__movie-poster" alt="poster" :src="item.poster">
             <h3 class="conf-step__movie-title">{{ item.name }}</h3>
             <p class="conf-step__movie-duration">{{ item.duration }} минут</p>
@@ -16,6 +16,7 @@
             addSession() {
                 this.$store.state.ShowTimeBuffer.movieId = this.item.id
                 this.$store.state.ShowTimeBuffer.movieName = this.item.name
+                this.$store.state.ShowTimeBuffer.duration = this.item.duration
                 this.$store.state.Modals.addShowTime.opened = true
             }
         }

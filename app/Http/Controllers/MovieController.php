@@ -41,9 +41,6 @@ class MovieController extends Controller
         } catch (ValidationException $e) {
         }
 
-
-
-
         return Movie::all();
     }
 }
