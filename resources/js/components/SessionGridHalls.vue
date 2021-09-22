@@ -19,9 +19,6 @@
             filteredHall() {
                return this.$store.state.ShowTimeList.filter(n => n.hall_id === this.hallItem.id)
             }
-        },
-        created() {
-            console.log(this.$store.state.ShowTimeList.filter(n => n.hall_id === this.hallItem.id))
         }
 
     }

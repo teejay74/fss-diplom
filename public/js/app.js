@@ -18735,13 +18735,6 @@ __webpack_require__.r(__webpack_exports__);
         return n.hall_id === _this.hallItem.id;
       });
     }
-  },
-  created: function created() {
-    var _this2 = this;
-
-    console.log(this.$store.state.ShowTimeList.filter(function (n) {
-      return n.hall_id === _this2.hallItem.id;
-    }));
   }
 });
 
