@@ -107,10 +107,23 @@ class HallController extends Controller
         $updatingHall = Hall::findOrFail($request->id);
         $updatingHall->row = $request->row;
         $updatingHall->seats = $request->seats;
+        $updatingHall->price = $request->price;
+        $updatingHall->vip_price = $request->vip_price;
         $updatingHall->save();
         $this->deleteSeats($updatingHall->id);
         $this->saveSeats($updatingHall);
         $this->saveStatus($request);;
+
+        return $updatingHall;
+    }
+
+
+    public function updatePrice (Request $request) {
+
+        $updatingHall = Hall::findOrFail($request->id);
+        $updatingHall->price = $request->price;
+        $updatingHall->vip_price = $request->vip_price;
+        $updatingHall->save();
 
         return $updatingHall;
     }

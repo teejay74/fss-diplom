@@ -11,6 +11,7 @@
                    :id="id"
                    :key="item.id"
                    :item="item"
+                    :name="name"
                    @sendHall="getCurrentHall($event)"
                ></HallConfigItemComponent>
             </ul>
@@ -58,7 +59,6 @@
                                   :key="id"
                                   :row="row"
                                   :hallId ="$store.state.CurrentHall.id"
-
                         ></HallRow>
                     </div>
                 </div>
@@ -70,7 +70,6 @@
             </fieldset>
         </div>
     </section>
-
 </template>
 
 <script>
@@ -88,7 +87,8 @@
           return {
               loading: false,
               stateRow: 0,
-              stateSeats: 0
+              stateSeats: 0,
+              name: "chairs-hall"
           }
         },
 

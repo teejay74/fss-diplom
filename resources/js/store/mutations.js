@@ -33,8 +33,6 @@ export default {
         state.Seats = payload
     },
     showSessions(state, payload) {
-        console.log(state.ShowTimeList)
         state.ShowTimeList = payload
-        console.log(state.ShowTimeList)
     }
 }

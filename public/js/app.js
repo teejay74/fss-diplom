@@ -18240,7 +18240,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       loading: false,
       stateRow: 0,
-      stateSeats: 0
+      stateSeats: 0,
+      name: "chairs-hall"
     };
   },
   methods: {
@@ -18290,7 +18291,7 @@ __webpack_require__.r(__webpack_exports__);
       checked: this.chooseItem()
     };
   },
-  props: ['item', 'id'],
+  props: ['item', 'id', 'name'],
   methods: {
     chooseHall: function chooseHall() {
       this.$emit('sendHall', this.item);
@@ -18631,8 +18632,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _HallConfigItemComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallConfigItemComponent */ "./resources/js/components/HallConfigItemComponent.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "PriceConfigComponent"
+  name: "PriceConfigComponent",
+  components: {
+    HallConfigItemComponent: _HallConfigItemComponent__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      loading: false,
+      normalPrice: 0,
+      vipPrice: 0,
+      name: "prices-hall"
+    };
+  },
+  methods: {
+    getCurrentHall: function getCurrentHall(item) {
+      var _this = this;
+
+      axios.post('/api/get-current-hall', item).then(function (response) {
+        console.log(response.data);
+        _this.$store.state.CurrentHall = response.data;
+        _this.normalPrice = _this.$store.state.CurrentHall.price;
+        _this.vipPrice = _this.$store.state.CurrentHall.vip_price;
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    },
+    stateChange: function stateChange() {
+      this.$store.state.CurrentHall.price = this.normalPrice;
+      this.$store.state.CurrentHall.vip_price = this.vipPrice;
+    },
+    updateConfigHall: function updateConfigHall() {
+      this.$store.dispatch('updatePrice', this.$store.state.CurrentHall);
+    },
+    resetForm: function resetForm() {
+      var _this2 = this;
+
+      axios.post('/api/get-current-hall', this.$store.state.CurrentHall).then(function (response) {
+        _this2.$store.state.CurrentHall = response.data;
+        _this2.normalPrice = _this2.$store.state.CurrentHall.price;
+        _this2.vipPrice = _this2.$store.state.CurrentHall.vip_price;
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -19330,12 +19376,13 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       id: id,
       key: item.id,
       item: item,
+      name: $data.name,
       onSendHall: _cache[1] || (_cache[1] = function ($event) {
         return $options.getCurrentHall($event);
       })
     }, null, 8
     /* PROPS */
-    , ["id", "item"]);
+    , ["id", "item", "name"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_8, [_hoisted_9, $data.loading ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("input", {
@@ -19423,18 +19470,17 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "radio",
     "class": "conf-step__radio",
-    name: "chairs-hall",
     value: $props.item.name,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.checked = $event;
     }),
+    name: $props.name,
     onChange: _cache[2] || (_cache[2] = function () {
       return $options.chooseHall && $options.chooseHall.apply($options, arguments);
-    }),
-    ref: "hallItem"
+    })
   }, null, 40
   /* PROPS, HYDRATE_EVENTS */
-  , ["value"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.checked]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.name), 1
+  , ["value", "name"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.checked]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.name), 1
   /* TEXT */
   )]);
 });
@@ -19968,12 +20014,136 @@ var _hoisted_1 = {
   "class": "conf-step"
 };
 
-var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<header class=\"conf-step__header conf-step__header_opened\" data-v-1acde73d><h2 class=\"conf-step__title\" data-v-1acde73d>Конфигурация цен</h2></header><div class=\"conf-step__wrapper\" data-v-1acde73d><p class=\"conf-step__paragraph\" data-v-1acde73d>Выберите зал для конфигурации:</p><ul class=\"conf-step__selectors-box\" data-v-1acde73d><li data-v-1acde73d><input type=\"radio\" class=\"conf-step__radio\" name=\"prices-hall\" value=\"Зал 1\" data-v-1acde73d><span class=\"conf-step__selector\" data-v-1acde73d>Зал 1</span></li><li data-v-1acde73d><input type=\"radio\" class=\"conf-step__radio\" name=\"prices-hall\" value=\"Зал 2\" checked data-v-1acde73d><span class=\"conf-step__selector\" data-v-1acde73d>Зал 2</span></li></ul><p class=\"conf-step__paragraph\" data-v-1acde73d>Установите цены для типов кресел:</p><div class=\"conf-step__legend\" data-v-1acde73d><label class=\"conf-step__label\" data-v-1acde73d>Цена, рублей<input type=\"text\" class=\"conf-step__input\" placeholder=\"0\" data-v-1acde73d></label> за <span class=\"conf-step__chair conf-step__chair_standart\" data-v-1acde73d></span> обычные кресла </div><div class=\"conf-step__legend\" data-v-1acde73d><label class=\"conf-step__label\" data-v-1acde73d>Цена, рублей<input type=\"text\" class=\"conf-step__input\" placeholder=\"0\" value=\"350\" data-v-1acde73d></label> за <span class=\"conf-step__chair conf-step__chair_vip\" data-v-1acde73d></span> VIP кресла </div><fieldset class=\"conf-step__buttons text-center\" data-v-1acde73d><button class=\"conf-step__button conf-step__button-regular\" data-v-1acde73d>Отмена</button><input type=\"submit\" value=\"Сохранить\" class=\"conf-step__button conf-step__button-accent\" data-v-1acde73d></fieldset></div>", 2);
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("header", {
+  "class": "conf-step__header conf-step__header_opened"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
+  "class": "conf-step__title"
+}, "Конфигурация цен")], -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
+  "class": "conf-step__wrapper"
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "conf-step__paragraph"
+}, "Выберите зал для конфигурации:", -1
+/* HOISTED */
+);
+
+var _hoisted_5 = {
+  "class": "conf-step__selectors-box"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "conf-step__paragraph"
+}, "Установите цены для типов кресел:", -1
+/* HOISTED */
+);
+
+var _hoisted_7 = {
+  "class": "conf-step__legend"
+};
+var _hoisted_8 = {
+  "class": "conf-step__label"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Цена, рублей ");
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" за ");
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "conf-step__chair conf-step__chair_standart"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" обычные кресла ");
+
+var _hoisted_13 = {
+  "class": "conf-step__legend"
+};
+var _hoisted_14 = {
+  "class": "conf-step__label"
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Цена, рублей ");
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" за ");
+
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "conf-step__chair conf-step__chair_vip"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" VIP кресла ");
+
+var _hoisted_19 = {
+  "class": "conf-step__buttons text-center"
+};
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("section", _hoisted_1, [_hoisted_2]);
+  var _component_HallConfigItemComponent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("HallConfigItemComponent");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("section", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$store.state.HallList, function (item, id) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_HallConfigItemComponent, {
+      id: id,
+      key: item.id,
+      item: item,
+      name: $data.name,
+      onSendHall: _cache[1] || (_cache[1] = function ($event) {
+        return $options.getCurrentHall($event);
+      })
+    }, null, 8
+    /* PROPS */
+    , ["id", "item", "name"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <li><input type=\"radio\" class=\"conf-step__radio\" name=\"prices-hall\" value=\"Зал 1\"><span class=\"conf-step__selector\">Зал 1</span></li>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                <li><input type=\"radio\" class=\"conf-step__radio\" name=\"prices-hall\" value=\"Зал 2\" checked><span class=\"conf-step__selector\">Зал 2</span></li>")]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "number",
+    min: "0",
+    max: "10000",
+    "class": "conf-step__input",
+    placeholder: "300",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.normalPrice = $event;
+    }),
+    onChange: _cache[3] || (_cache[3] = function () {
+      return $options.stateChange && $options.stateChange.apply($options, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.normalPrice]])]), _hoisted_10, _hoisted_11, _hoisted_12]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "number",
+    min: "0",
+    max: "10000",
+    "class": "conf-step__input",
+    placeholder: "600",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.vipPrice = $event;
+    }),
+    onChange: _cache[5] || (_cache[5] = function () {
+      return $options.stateChange && $options.stateChange.apply($options, arguments);
+    })
+  }, null, 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.vipPrice]])]), _hoisted_16, _hoisted_17, _hoisted_18]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("fieldset", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    "class": "conf-step__button conf-step__button-regular",
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.resetForm && $options.resetForm.apply($options, arguments);
+    })
+  }, "Отмена"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "submit",
+    value: "Сохранить",
+    "class": "conf-step__button conf-step__button-accent",
+    onClick: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.updateConfigHall && $options.updateConfigHall.apply($options, arguments);
+    }, ["prevent"]))
+  })])])]);
 });
 
 /***/ }),
@@ -21069,30 +21239,36 @@ __webpack_require__.r(__webpack_exports__);
   },
   updateHall: function updateHall(_ref9, payload) {
     var commit = _ref9.commit;
-    axios.post('/api/update-hall', payload).then(function (response) {
-      console.log(response.data); //commit('showCurrentHall', response.data)
+    axios.post('/api/update-hall', payload).then(function (response) {//commit('showCurrentHall', response.data)
     })["catch"](function (error) {
       return console.error(error);
     });
   },
-  getSeat: function getSeat(_ref10, payload) {
+  updatePrice: function updatePrice(_ref10, payload) {
     var commit = _ref10.commit;
+    axios.post('/api/update-price', payload).then(function (response) {//commit('showCurrentHall', response.data)
+    })["catch"](function (error) {
+      return console.error(error);
+    });
+  },
+  getSeat: function getSeat(_ref11, payload) {
+    var commit = _ref11.commit;
     axios.post('/api/get-seat', payload).then(function (response) {
       commit('showSeats', response.data);
     })["catch"](function (error) {
       return console.error(error);
     });
   },
-  saveSessions: function saveSessions(_ref11, payload) {
-    var commit = _ref11.commit;
+  saveSessions: function saveSessions(_ref12, payload) {
+    var commit = _ref12.commit;
     axios.post('/api/save-sessions', payload).then(function (response) {
       commit('showSessions', response.data);
     })["catch"](function (error) {
       return console.error(error);
     });
   },
-  getSessions: function getSessions(_ref12, payload) {
-    var commit = _ref12.commit;
+  getSessions: function getSessions(_ref13, payload) {
+    var commit = _ref13.commit;
     axios.post('/api/get-sessions', payload).then(function (response) {
       commit('showSessions', response.data);
     })["catch"](function (error) {
@@ -21167,9 +21343,7 @@ __webpack_require__.r(__webpack_exports__);
     state.Seats = payload;
   },
   showSessions: function showSessions(state, payload) {
-    console.log(state.ShowTimeList);
     state.ShowTimeList = payload;
-    console.log(state.ShowTimeList);
   }
 });
 

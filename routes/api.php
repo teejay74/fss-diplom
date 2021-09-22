@@ -30,6 +30,7 @@ Route::get('/get-hall', [\App\Http\Controllers\HallController::class, 'index']);
 Route::post('/hall-delete', [\App\Http\Controllers\HallController::class, 'deleteHall']);
 Route::post('/get-current-hall', [\App\Http\Controllers\HallController::class, 'getCurrentHall']);
 Route::post('/update-hall', [\App\Http\Controllers\HallController::class, 'updateHall']);
+Route::post('/update-price', [\App\Http\Controllers\HallController::class, 'updatePrice']);
 Route::post('/get-seat', [\App\Http\Controllers\SeatController::class, 'index']);
 Route::post('/save-sessions', [\App\Http\Controllers\MovieShowController::class, 'saveSessions']);
 Route::post('/get-sessions', [\App\Http\Controllers\MovieShowController::class, 'index']);

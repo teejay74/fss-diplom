@@ -2,11 +2,11 @@
     <li><input
         type="radio"
         class="conf-step__radio"
-        name="chairs-hall"
         :value="item.name"
         v-model="checked"
+        :name="name"
         @change="chooseHall"
-        ref="hallItem"><span class="conf-step__selector" >{{ item.name }}</span></li>
+        ><span class="conf-step__selector" >{{ item.name }}</span></li>
 </template>
 
 <script>
@@ -17,7 +17,7 @@
                 checked: this.chooseItem()
             }
         },
-        props: ['item', 'id'],
+        props: ['item', 'id', 'name'],
         methods: {
             chooseHall() {
                 this.$emit('sendHall', this.item)

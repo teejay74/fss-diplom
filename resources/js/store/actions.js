@@ -48,7 +48,12 @@ export default {
     },
     updateHall({commit}, payload) {
         axios.post('/api/update-hall', payload).then(response => {
-            console.log(response.data)
+            //commit('showCurrentHall', response.data)
+        }).catch(error => console.error(error));
+    },
+    updatePrice({commit}, payload) {
+        axios.post('/api/update-price', payload).then(response => {
+
             //commit('showCurrentHall', response.data)
         }).catch(error => console.error(error));
     },
