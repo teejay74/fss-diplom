@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hall;
 use App\Models\Movie;
+use App\Models\MovieShow;
 use App\Models\Seat;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -50,6 +51,13 @@ class HallController extends Controller
             }
     }
 
+    public function deleteSessions($id) {
+        $sessionsArr = MovieShow::all()->where('hall_id', $id);
+        foreach($sessionsArr as $session) {
+            $session->delete();
+        }
+    }
+
     public function store (Request $request) {
 
         try {
@@ -77,6 +85,7 @@ class HallController extends Controller
     public function deleteHall (Request $request) {
         $hall = Hall::findOrFail($request->id);
         $this->deleteSeats($hall->id);
+        $this->deleteSessions($hall->id);
         $hall->delete();
         return Hall::all();
     }
@@ -103,7 +112,7 @@ class HallController extends Controller
         $this->saveSeats($updatingHall);
         $this->saveStatus($request);;
 
-        return $updatingHall;;
+        return $updatingHall;
     }
 
 }
