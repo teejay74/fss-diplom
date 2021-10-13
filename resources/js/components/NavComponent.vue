@@ -2,10 +2,7 @@
     <nav class="page-nav">
         <DayItem v-for="item in dateArray"
                  :key="item.id"
-                 :dayOfWeek="item.dayOfWeek"
-                 :id="item.id"
-                 :calendarDay="item.calendarDay"
-                 :active="item.active"
+                 :item="item"
                  @close-items="closeItems"
         />
     </nav>
@@ -26,13 +23,14 @@
         const objDay = {
             id: i,
             calendarDay: curDate.format("D"),
-            dayOfWeek: curDayOfWeek
+            dayOfWeek: curDayOfWeek,
+            curDate: curDate.format('DD.MM.YYYY')
         }
-        if(i === 0) {
-            objDay.active = true
-        } else {
-            objDay.active = false
-        }
+        // if(i === 0) {
+        //     objDay.active = true
+        // } else {
+        //     objDay.active = false
+        // }
         dateArray.push(objDay)
     }
 

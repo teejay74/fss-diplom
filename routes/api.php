@@ -34,4 +34,4 @@ Route::post('/update-price', [\App\Http\Controllers\HallController::class, 'upda
 Route::post('/get-seat', [\App\Http\Controllers\SeatController::class, 'index']);
 Route::post('/save-sessions', [\App\Http\Controllers\MovieShowController::class, 'saveSessions']);
 Route::post('/get-sessions', [\App\Http\Controllers\MovieShowController::class, 'index']);
-
+Route::post('/get-movie-today', [\App\Http\Controllers\MovieShowController::class, 'showMoviesToday']);

@@ -16,6 +16,8 @@
             addSession() {
                 this.$store.state.ShowTimeBuffer.movieId = this.item.id
                 this.$store.state.ShowTimeBuffer.movieName = this.item.name
+                this.$store.state.ShowTimeBuffer.description = this.item.description
+                this.$store.state.ShowTimeBuffer.poster = this.item.poster
                 this.$store.state.ShowTimeBuffer.duration = this.item.duration
                 this.$store.state.Modals.addShowTime.opened = true
             }

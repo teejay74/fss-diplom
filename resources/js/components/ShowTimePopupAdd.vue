@@ -58,6 +58,8 @@
                     hall_id: this.select,
                     movie_id: this.$store.state.ShowTimeBuffer.movieId,
                     movie_name: this.$store.state.ShowTimeBuffer.movieName,
+                    movie_description: this.$store.state.ShowTimeBuffer.description,
+                    movie_poster: this.$store.state.ShowTimeBuffer.poster,
                     start_time: this.startTime,
                     movie_show_duration: this.$store.state.ShowTimeBuffer.duration
                 }

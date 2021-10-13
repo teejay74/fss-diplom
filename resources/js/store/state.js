@@ -12,6 +12,7 @@ export default {
     CurrentHall: [],
     ShowTimeList: [],
     ShowTimeBuffer: {},
+    MovieShowToday: [],
 
     Seats: [],
     Modals: {

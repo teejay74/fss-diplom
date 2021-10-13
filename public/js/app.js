@@ -18165,16 +18165,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    dayOfWeek: String,
-    id: Number,
-    calendarDay: String,
-    active: Boolean
-  },
+  props: ['item'],
   name: "DayItem",
+  created: function created() {
+    if (this.item.id === 0) {
+      this.open();
+    }
+  },
   methods: {
     open: function open() {
-      this.$emit('close-items', this.id);
+      this.$emit('close-items', this.item.id);
+      this.$store.dispatch('getMovieToDay', this.item);
+      this.$store.dispatch('getMovie');
+      this.$store.dispatch('getSessions');
     }
   }
 });
@@ -18417,7 +18420,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.statusId = 0;
+    // this.statusId = 0
     var seatItem = this.$store.state.CurrentHall.allSeats.find(function (el) {
       return el.row_number === _this.row && el.seat_number === _this.seat && el.hall_id === _this.hallId;
     });
@@ -18525,8 +18528,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _MovieSeancesHall__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MovieSeancesHall */ "./resources/js/components/MovieSeancesHall.vue");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "MovieComponent"
+  name: "MovieComponent",
+  components: {
+    MovieSeancesHall: _MovieSeancesHall__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  props: ['item']
 });
 
 /***/ }),
@@ -18549,10 +18558,53 @@ __webpack_require__.r(__webpack_exports__);
     addSession: function addSession() {
       this.$store.state.ShowTimeBuffer.movieId = this.item.id;
       this.$store.state.ShowTimeBuffer.movieName = this.item.name;
+      this.$store.state.ShowTimeBuffer.description = this.item.description;
+      this.$store.state.ShowTimeBuffer.poster = this.item.poster;
       this.$store.state.ShowTimeBuffer.duration = this.item.duration;
       this.$store.state.Modals.addShowTime.opened = true;
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesHall.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesHall.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MovieSeancesTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MovieSeancesTime */ "./resources/js/components/MovieSeancesTime.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "MovieSeancesHall",
+  props: ['hall'],
+  components: {
+    MovieSeancesTime: _MovieSeancesTime__WEBPACK_IMPORTED_MODULE_0__.default
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesTime.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesTime.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "MovieSeancesTime",
+  props: ['time']
 });
 
 /***/ }),
@@ -18587,14 +18639,13 @@ for (var i = 0; i <= 5; i += 1) {
   var objDay = {
     id: i,
     calendarDay: curDate.format("D"),
-    dayOfWeek: curDayOfWeek
-  };
-
-  if (i === 0) {
-    objDay.active = true;
-  } else {
-    objDay.active = false;
-  }
+    dayOfWeek: curDayOfWeek,
+    curDate: curDate.format('DD.MM.YYYY')
+  }; // if(i === 0) {
+  //     objDay.active = true
+  // } else {
+  //     objDay.active = false
+  // }
 
   dateArray.push(objDay);
 }
@@ -18838,6 +18889,8 @@ __webpack_require__.r(__webpack_exports__);
         hall_id: this.select,
         movie_id: this.$store.state.ShowTimeBuffer.movieId,
         movie_name: this.$store.state.ShowTimeBuffer.movieName,
+        movie_description: this.$store.state.ShowTimeBuffer.description,
+        movie_poster: this.$store.state.ShowTimeBuffer.poster,
         start_time: this.startTime,
         movie_show_duration: this.$store.state.ShowTimeBuffer.duration
       };
@@ -18953,6 +19006,9 @@ __webpack_require__.r(__webpack_exports__);
     HeaderComponent: _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_0__.default,
     NavComponent: _components_NavComponent__WEBPACK_IMPORTED_MODULE_1__.default,
     MovieComponent: _components_MovieComponent__WEBPACK_IMPORTED_MODULE_2__.default
+  },
+  created: function created() {
+    console.log(this.$store.state.MovieShowToday);
   },
   methods: {
     add: function add() {
@@ -19161,17 +19217,17 @@ var _hoisted_2 = {
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("a", {
     "class": ["page-nav__day", [{
-      'page-nav__day_today': $props.id === 0
+      'page-nav__day_today': $props.item.id === 0
     }, {
-      'page-nav__day_chosen': $props.active
+      'page-nav__day_chosen': $props.item.active
     }]],
     href: "#",
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.open && $options.open.apply($options, arguments);
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.dayOfWeek), 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.dayOfWeek), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.calendarDay), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.calendarDay), 1
   /* TEXT */
   )], 2
   /* CLASS */
@@ -19889,12 +19945,64 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-5875e058");
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"movie\" data-v-5875e058><div class=\"movie__info\" data-v-5875e058><div class=\"movie__poster\" data-v-5875e058><img class=\"movie__poster-image\" alt=\"Звёздные войны постер\" src=\"i/poster1.jpg\" data-v-5875e058></div><div class=\"movie__description\" data-v-5875e058><h2 class=\"movie__title\" data-v-5875e058>Звёздные войны XXIII: Атака клонированных клонов</h2><p class=\"movie__synopsis\" data-v-5875e058>Две сотни лет назад малороссийские хутора разоряла шайка нехристей-ляхов во главе с могущественным колдуном.</p><p class=\"movie__data\" data-v-5875e058><span class=\"movie__data-duration\" data-v-5875e058>130 минут</span><span class=\"movie__data-origin\" data-v-5875e058>США</span></p></div></div><div class=\"movie-seances__hall\" data-v-5875e058><h3 class=\"movie-seances__hall-title\" data-v-5875e058>Зал 1</h3><ul class=\"movie-seances__list\" data-v-5875e058><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>10:20</a></li><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>14:10</a></li><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>18:40</a></li><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>22:00</a></li></ul></div><div class=\"movie-seances__hall\" data-v-5875e058><h3 class=\"movie-seances__hall-title\" data-v-5875e058>Зал 2</h3><ul class=\"movie-seances__list\" data-v-5875e058><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>11:15</a></li><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>14:40</a></li><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>16:00</a></li><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>18:30</a></li><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>21:00</a></li><li class=\"movie-seances__time-block\" data-v-5875e058><a class=\"movie-seances__time\" href=\"hall.html\" data-v-5875e058>23:30</a></li></ul></div></section>", 1);
+var _hoisted_1 = {
+  "class": "movie"
+};
+var _hoisted_2 = {
+  "class": "movie__info"
+};
+var _hoisted_3 = {
+  "class": "movie__poster"
+};
+var _hoisted_4 = {
+  "class": "movie__description"
+};
+var _hoisted_5 = {
+  "class": "movie__title"
+};
+var _hoisted_6 = {
+  "class": "movie__synopsis"
+};
+var _hoisted_7 = {
+  "class": "movie__data"
+};
+var _hoisted_8 = {
+  "class": "movie__data-duration"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "movie__data-origin"
+}, "США", -1
+/* HOISTED */
+);
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("main", null, [_hoisted_1]);
+  var _component_MovieSeancesHall = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("MovieSeancesHall");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+    "class": "movie__poster-image",
+    alt: "Звёздные войны постер",
+    src: $props.item.movie_poster
+  }, null, 8
+  /* PROPS */
+  , ["src"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.movie_name), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.movie_description), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.movie_show_duration) + " минут", 1
+  /* TEXT */
+  ), _hoisted_9])])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.item.halls, function (hall) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_MovieSeancesHall, {
+      key: hall.hallId,
+      hall: hall
+    }, null, 8
+    /* PROPS */
+    , ["hall"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])]);
 });
 
 /***/ }),
@@ -19947,6 +20055,91 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesHall.vue?vue&type=template&id=3b1190e6&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesHall.vue?vue&type=template&id=3b1190e6&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-3b1190e6");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3b1190e6");
+
+var _hoisted_1 = {
+  "class": "movie-seances__hall"
+};
+var _hoisted_2 = {
+  "class": "movie-seances__hall-title"
+};
+var _hoisted_3 = {
+  "class": "movie-seances__list"
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_MovieSeancesTime = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("MovieSeancesTime");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.hall), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.hall.times, function (time, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_MovieSeancesTime, {
+      key: index,
+      time: time
+    }, null, 8
+    /* PROPS */
+    , ["time"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])]);
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesTime.vue?vue&type=template&id=7bb88d0c&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesTime.vue?vue&type=template&id=7bb88d0c&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-7bb88d0c");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-7bb88d0c");
+
+var _hoisted_1 = {
+  "class": "movie-seances__time-block"
+};
+var _hoisted_2 = {
+  "class": "movie-seances__time",
+  href: "hall.html"
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.time), 1
+  /* TEXT */
+  )]);
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/NavComponent.vue?vue&type=template&id=152c8205&scoped=true":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/NavComponent.vue?vue&type=template&id=152c8205&scoped=true ***!
@@ -19977,14 +20170,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("nav", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.dateArray, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DayItem, {
       key: item.id,
-      dayOfWeek: item.dayOfWeek,
-      id: item.id,
-      calendarDay: item.calendarDay,
-      active: item.active,
+      item: item,
       onCloseItems: $options.closeItems
     }, null, 8
     /* PROPS */
-    , ["dayOfWeek", "id", "calendarDay", "active", "onCloseItems"]);
+    , ["item", "onCloseItems"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))]);
@@ -20677,7 +20867,16 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
   var _component_MovieComponent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("MovieComponent");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HeaderComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MovieComponent), _hoisted_1], 64
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_HeaderComponent), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavComponent), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$store.state.MovieShowToday, function (item) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_MovieComponent, {
+      key: item.id,
+      item: item
+    }, null, 8
+    /* PROPS */
+    , ["item"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), _hoisted_1], 64
   /* STABLE_FRAGMENT */
   );
 });
@@ -21274,6 +21473,14 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (error) {
       return console.error(error);
     });
+  },
+  getMovieToDay: function getMovieToDay(_ref14, payload) {
+    var commit = _ref14.commit;
+    axios.post('/api/get-movie-today', payload).then(function (response) {
+      commit('showSessionsToday', response.data);
+    })["catch"](function (error) {
+      return console.error(error);
+    });
   }
 });
 
@@ -21315,6 +21522,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   // apiArrayAdd(state, payload) {
   //     state.apiArray = payload
@@ -21344,6 +21563,47 @@ __webpack_require__.r(__webpack_exports__);
   },
   showSessions: function showSessions(state, payload) {
     state.ShowTimeList = payload;
+  },
+  showSessionsToday: function showSessionsToday(state, payload) {
+    var moviesId = _toConsumableArray(new Set(payload.map(function (el) {
+      return el.movie_id;
+    })));
+
+    console.log(moviesId);
+    var arr = [];
+    moviesId.forEach(function (movieId) {
+      var movieSection = {};
+      movieSection.movie_id = movieId;
+      var movieInfo = payload.filter(function (el) {
+        return el.movie_id === movieId;
+      });
+      movieSection.movie_name = movieInfo[0].movie_name;
+      movieSection.movie_description = movieInfo[0].movie_description;
+      movieSection.movie_poster = movieInfo[0].movie_poster;
+      movieSection.movie_show_duration = movieInfo[0].movie_show_duration;
+
+      var hallsId = _toConsumableArray(new Set(movieInfo.map(function (el) {
+        return el.hall_id;
+      })));
+
+      var hallsArr = [];
+      hallsId.forEach(function (hallId) {
+        var hallObj = {};
+        hallObj.hallId = hallId;
+        var timesArr = [];
+        var timesSession = payload.filter(function (el) {
+          return el.movie_id === movieId && el.hall_id === hallId;
+        });
+        timesSession.forEach(function (el) {
+          return timesArr.push(el.start_time);
+        });
+        hallObj.times = timesArr.sort();
+        hallsArr.push(hallObj);
+      });
+      movieSection.halls = hallsArr;
+      arr.push(movieSection);
+    });
+    state.MovieShowToday = arr;
   }
 });
 
@@ -21374,6 +21634,7 @@ __webpack_require__.r(__webpack_exports__);
   CurrentHall: [],
   ShowTimeList: [],
   ShowTimeBuffer: {},
+  MovieShowToday: [],
   Seats: [],
   Modals: {
     addMovie: {
@@ -78973,6 +79234,60 @@ _MovieItemComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.def
 
 /***/ }),
 
+/***/ "./resources/js/components/MovieSeancesHall.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/MovieSeancesHall.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MovieSeancesHall_vue_vue_type_template_id_3b1190e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MovieSeancesHall.vue?vue&type=template&id=3b1190e6&scoped=true */ "./resources/js/components/MovieSeancesHall.vue?vue&type=template&id=3b1190e6&scoped=true");
+/* harmony import */ var _MovieSeancesHall_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MovieSeancesHall.vue?vue&type=script&lang=js */ "./resources/js/components/MovieSeancesHall.vue?vue&type=script&lang=js");
+
+
+
+_MovieSeancesHall_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _MovieSeancesHall_vue_vue_type_template_id_3b1190e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_MovieSeancesHall_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-3b1190e6"
+/* hot reload */
+if (false) {}
+
+_MovieSeancesHall_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/MovieSeancesHall.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_MovieSeancesHall_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/MovieSeancesTime.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/MovieSeancesTime.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MovieSeancesTime_vue_vue_type_template_id_7bb88d0c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MovieSeancesTime.vue?vue&type=template&id=7bb88d0c&scoped=true */ "./resources/js/components/MovieSeancesTime.vue?vue&type=template&id=7bb88d0c&scoped=true");
+/* harmony import */ var _MovieSeancesTime_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MovieSeancesTime.vue?vue&type=script&lang=js */ "./resources/js/components/MovieSeancesTime.vue?vue&type=script&lang=js");
+
+
+
+_MovieSeancesTime_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _MovieSeancesTime_vue_vue_type_template_id_7bb88d0c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_MovieSeancesTime_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-7bb88d0c"
+/* hot reload */
+if (false) {}
+
+_MovieSeancesTime_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/MovieSeancesTime.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_MovieSeancesTime_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
 /***/ "./resources/js/components/NavComponent.vue":
 /*!**************************************************!*\
   !*** ./resources/js/components/NavComponent.vue ***!
@@ -79532,6 +79847,38 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/MovieSeancesHall.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/MovieSeancesHall.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieSeancesHall_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieSeancesHall_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MovieSeancesHall.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesHall.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/MovieSeancesTime.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/MovieSeancesTime.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieSeancesTime_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieSeancesTime_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MovieSeancesTime.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesTime.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/NavComponent.vue?vue&type=script&lang=js":
 /*!**************************************************************************!*\
   !*** ./resources/js/components/NavComponent.vue?vue&type=script&lang=js ***!
@@ -79944,6 +80291,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieItemComponent_vue_vue_type_template_id_64461285_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieItemComponent_vue_vue_type_template_id_64461285_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MovieItemComponent.vue?vue&type=template&id=64461285&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieItemComponent.vue?vue&type=template&id=64461285&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/MovieSeancesHall.vue?vue&type=template&id=3b1190e6&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/MovieSeancesHall.vue?vue&type=template&id=3b1190e6&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieSeancesHall_vue_vue_type_template_id_3b1190e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieSeancesHall_vue_vue_type_template_id_3b1190e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MovieSeancesHall.vue?vue&type=template&id=3b1190e6&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesHall.vue?vue&type=template&id=3b1190e6&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/MovieSeancesTime.vue?vue&type=template&id=7bb88d0c&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/MovieSeancesTime.vue?vue&type=template&id=7bb88d0c&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieSeancesTime_vue_vue_type_template_id_7bb88d0c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MovieSeancesTime_vue_vue_type_template_id_7bb88d0c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MovieSeancesTime.vue?vue&type=template&id=7bb88d0c&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MovieSeancesTime.vue?vue&type=template&id=7bb88d0c&scoped=true");
 
 
 /***/ }),

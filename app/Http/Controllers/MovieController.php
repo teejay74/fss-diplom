@@ -24,12 +24,12 @@ class MovieController extends Controller
                 $image->move(public_path('images'),$imageName);
                 $path = 'images/'.$imageName;
             } else {
-                $path = '';
+                $path = 'images/poster1.jpg';
             }
 
         try {
             $this->validate($request, [
-                'title' => 'required|between:6,25'
+                'title' => 'required|between:2,25'
             ]);
             $movie = new Movie();
             $movie->name = $request->title;

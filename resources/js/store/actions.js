@@ -72,4 +72,10 @@ export default {
             commit('showSessions', response.data)
         }).catch(error => console.error(error));
     },
+    getMovieToDay({commit}, payload) {
+        axios.post('/api/get-movie-today', payload).then(response => {
+
+            commit('showSessionsToday', response.data)
+        }).catch(error => console.error(error));
+    },
 }

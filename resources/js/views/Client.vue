@@ -1,7 +1,7 @@
 <template>
     <HeaderComponent></HeaderComponent>
     <NavComponent></NavComponent>
-    <MovieComponent></MovieComponent>
+    <MovieComponent v-for="item in $store.state.MovieShowToday" :key="item.id" :item="item"></MovieComponent>
    <h1>Client</h1>
 
 </template>
@@ -17,6 +17,9 @@
             NavComponent,
             MovieComponent
         },
+        created() {
+            console.log(this.$store.state.MovieShowToday)
+        },
         methods: {
             add() {
                 this.$store.commit('increment')
@@ -26,7 +29,8 @@
             },
             testApi() {
                this.$store.dispatch('asyncApiArrayAdd')
-            }
+            },
+
 
         }
     }
