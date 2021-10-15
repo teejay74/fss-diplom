@@ -18,8 +18,8 @@
             open() {
                 this.$emit('close-items', this.item.id)
                 this.$store.dispatch('getMovieToDay', this.item)
-                this.$store.dispatch('getMovie')
-                this.$store.dispatch('getSessions')
+                this.$store.dispatch('getHall')
+
             }
         }
      }

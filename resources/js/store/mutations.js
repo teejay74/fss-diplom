@@ -18,6 +18,7 @@ export default {
 
     getMovie(state, payload) {
         state.MoviesList = payload
+        state.LoadingMovies = true
 
     },
     getHall(state, payload) {
@@ -28,6 +29,12 @@ export default {
     showCurrentHall(state, payload) {
         state.CurrentHall = payload
         state.CurrentHall.seatsStatus = []
+        state.LoadingCurrentHall = true
+    },
+    showCurrentHallClient(state, payload){
+        state.CurrentHallClient = payload
+        state.CurrentHallClient.seatsStatus = []
+        state.LoadingCurrentHallClient = true
     },
     showSeats(state, payload) {
         state.Seats = payload
@@ -37,9 +44,7 @@ export default {
     },
     showSessionsToday(state, payload) {
         const moviesId = [...new Set(payload.map(el => el.movie_id))]
-        console.log(moviesId)
         let arr = []
-
         moviesId.forEach(function (movieId) {
             let movieSection = {}
             movieSection.movie_id = movieId
@@ -53,23 +58,15 @@ export default {
             hallsId.forEach(function (hallId) {
                 let hallObj = {}
                 hallObj.hallId = hallId
-
                 let timesArr = []
                 const timesSession = payload.filter(el => el.movie_id === movieId && el.hall_id === hallId)
-
                 timesSession.forEach(el => timesArr.push(el.start_time))
                 hallObj.times = timesArr.sort()
                 hallsArr.push(hallObj)
             })
             movieSection.halls = hallsArr
-
-
             arr.push(movieSection)
         })
-
-
-
-
         state.MovieShowToday = arr
 
     }

@@ -42,9 +42,13 @@ export default {
            commit('getHall', response.data)
         }).catch(error => console.error(error));
     },
-    getCurrentHall({commit}, payload) {        axios.post('/api/get-current-hall', payload).then(response => {
+    getCurrentHall({commit}, payload) {axios.post('/api/get-current-hall', payload).then(response => {
             commit('showCurrentHall', response.data)
         }).catch(error => console.error(error));
+    },
+    getCurrentHallClient({commit}, payload) {axios.post('/api/get-current-hall', payload).then(response => {
+        commit('showCurrentHallClient', response.data)
+    }).catch(error => console.error(error));
     },
     updateHall({commit}, payload) {
         axios.post('/api/update-hall', payload).then(response => {

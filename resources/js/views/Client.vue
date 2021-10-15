@@ -17,18 +17,13 @@
             NavComponent,
             MovieComponent
         },
-        created() {
-            console.log(this.$store.state.MovieShowToday)
-        },
+
         methods: {
             add() {
                 this.$store.commit('increment')
             },
             incrementAsync() {
                 this.$store.dispatch('incrementAsync')
-            },
-            testApi() {
-               this.$store.dispatch('asyncApiArrayAdd')
             },
 
 

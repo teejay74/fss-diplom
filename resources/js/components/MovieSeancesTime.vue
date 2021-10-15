@@ -1,11 +1,11 @@
 <template>
-    <li class="movie-seances__time-block"><a class="movie-seances__time" href="hall.html">{{ time }}</a></li>
+   <li class="movie-seances__time-block"> <router-link tag="a" class="movie-seances__time" :to="{ name: 'hall', query: {time, hallId, movieId} }" > {{ time }}</router-link></li>
 </template>
 
 <script>
     export default {
         name: "MovieSeancesTime",
-        props: ['time']
+        props: ['time', 'hallId', 'movieId']
     }
 </script>
 

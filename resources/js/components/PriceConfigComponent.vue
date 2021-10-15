@@ -73,25 +73,25 @@
         methods: {
             getCurrentHall(item) {
                 axios.post('/api/get-current-hall', item).then(response => {
-                    console.log(response.data)
-                    this.$store.state.CurrentHall = response.data
-                    this.normalPrice = this.$store.state.CurrentHall.price
-                    this.vipPrice = this.$store.state.CurrentHall.vip_price
+
+                    this.$store.state.CurrentHallForPrice = response.data
+                    this.normalPrice = this.$store.state.CurrentHallForPrice.price
+                    this.vipPrice = this.$store.state.CurrentHallForPrice.vip_price
                 }).catch(error => console.error(error));
 
             },
             stateChange () {
-                this.$store.state.CurrentHall.price = this.normalPrice
-                this.$store.state.CurrentHall.vip_price = this.vipPrice
+                this.$store.state.CurrentHallForPrice.price = this.normalPrice
+                this.$store.state.CurrentHallForPrice.vip_price = this.vipPrice
             },
             updateConfigHall() {
-                this.$store.dispatch('updatePrice', this.$store.state.CurrentHall)
+                this.$store.dispatch('updatePrice', this.$store.state.CurrentHallForPrice)
             },
             resetForm() {
-                axios.post('/api/get-current-hall', this.$store.state.CurrentHall).then(response => {
-                    this.$store.state.CurrentHall = response.data
-                    this.normalPrice = this.$store.state.CurrentHall.price
-                    this.vipPrice = this.$store.state.CurrentHall.vip_price
+                axios.post('/api/get-current-hall', this.$store.state.CurrentHallForPrice).then(response => {
+                    this.$store.state.CurrentHallForPrice = response.data
+                    this.normalPrice = this.$store.state.CurrentHallForPrice.price
+                    this.vipPrice = this.$store.state.CurrentHallForPrice.vip_price
                 }).catch(error => console.error(error));
 
             },

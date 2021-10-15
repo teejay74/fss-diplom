@@ -59,6 +59,7 @@
                                   :key="id"
                                   :row="row"
                                   :hallId ="$store.state.CurrentHall.id"
+                                  :loading = 'loading'
                         ></HallRow>
                     </div>
                 </div>
@@ -97,11 +98,11 @@
                 axios.post('/api/get-current-hall', item).then(response => {
                     this.$store.state.CurrentHall = response.data
                     this.$store.state.CurrentHall.seatsStatus = []
-                    this.loading = true
                     this.stateRow = this.$store.state.CurrentHall.row
                     this.stateSeats = this.$store.state.CurrentHall.seats
-                }).catch(error => console.error(error));
+                    this.loading = true
 
+                }).catch(error => console.error(error));
             },
             updateConfigHall() {
                 this.$store.dispatch('updateHall', this.$store.state.CurrentHall)

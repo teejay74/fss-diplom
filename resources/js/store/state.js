@@ -7,12 +7,19 @@ export default {
         name: null
     },
     LoadingHall: false,
+    LoadingMovies: false,
+    LoadingCurrentHall: false,
+    LoadingCurrentHallClient: false,
     MoviesList: [],
     HallList: [],
     CurrentHall: [],
+    CurrentHallForPrice: [],
+    CurrentHallClient: [],
     ShowTimeList: [],
     ShowTimeBuffer: {},
     MovieShowToday: [],
+    selectedSeats: [],
+    TotalPrice: 0,
 
     Seats: [],
     Modals: {

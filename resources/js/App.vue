@@ -1,7 +1,7 @@
 <template>
     <router-link :to="'/admin'">Админка</router-link>
     <br />
-    <router-link :to="'/'">Клиент</router-link>
+    <router-link :to="'/'" >Клиент</router-link>
     <br />
     <router-link :to="'/login'">Форма логина</router-link>
     <br />

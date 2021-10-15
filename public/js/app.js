@@ -18176,8 +18176,7 @@ __webpack_require__.r(__webpack_exports__);
     open: function open() {
       this.$emit('close-items', this.item.id);
       this.$store.dispatch('getMovieToDay', this.item);
-      this.$store.dispatch('getMovie');
-      this.$store.dispatch('getSessions');
+      this.$store.dispatch('getHall');
     }
   }
 });
@@ -18254,9 +18253,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/get-current-hall', item).then(function (response) {
         _this.$store.state.CurrentHall = response.data;
         _this.$store.state.CurrentHall.seatsStatus = [];
-        _this.loading = true;
         _this.stateRow = _this.$store.state.CurrentHall.row;
         _this.stateSeats = _this.$store.state.CurrentHall.seats;
+        _this.loading = true;
       })["catch"](function (error) {
         return console.error(error);
       });
@@ -18358,6 +18357,198 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPay.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPay.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _HallPayBuyingInfo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallPayBuyingInfo */ "./resources/js/components/HallPayBuyingInfo.vue");
+/* harmony import */ var _HallPayBuyingScheme__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HallPayBuyingScheme */ "./resources/js/components/HallPayBuyingScheme.vue");
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "HallPay",
+  components: {
+    HallPayBuyingInfo: _HallPayBuyingInfo__WEBPACK_IMPORTED_MODULE_0__.default,
+    HallPayBuyingScheme: _HallPayBuyingScheme__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  created: function created() {
+    this.$store.state.selectedSeats = [];
+    this.$store.dispatch('getHall');
+    this.$store.dispatch('getMovie');
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingInfo.vue?vue&type=script&lang=js":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingInfo.vue?vue&type=script&lang=js ***!
+  \***********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "HallPayBuyingInfo"
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingScheme.vue?vue&type=script&lang=js":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingScheme.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _HallPayBuyingSchemeRow__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallPayBuyingSchemeRow */ "./resources/js/components/HallPayBuyingSchemeRow.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "HallPayBuyingScheme",
+  components: {
+    HallPayBuyingSchemeRow: _HallPayBuyingSchemeRow__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      time: this.$route.query.time,
+      movieId: this.$route.query.movieId,
+      hallId: this.$route.query.hallId,
+      item: {
+        id: this.$route.query.hallId
+      }
+    };
+  },
+  computed: {
+    getPriceTicket: function getPriceTicket() {
+      var chooseCount = this.$store.state.selectedSeats.length;
+      this.$store.state.TotalPrice = this.$store.state.selectedSeats.reduce(function (prev, curr) {
+        return prev + curr.price;
+      }, 0);
+      return chooseCount + " на сумму: " + this.$store.state.TotalPrice;
+    }
+  },
+  created: function created() {
+    this.$store.dispatch('getCurrentHallClient', this.item);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=script&lang=js":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=script&lang=js ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _HallPayBuyingSchemeSeat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallPayBuyingSchemeSeat */ "./resources/js/components/HallPayBuyingSchemeSeat.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "HallPayBuyingSchemeRow",
+  components: {
+    HallPayBuyingSchemeSeat: _HallPayBuyingSchemeSeat__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  props: ['row']
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "HallPayBuyingSchemeSeat",
+  props: ['seat', 'row'],
+  data: function data() {
+    return {
+      seatStatus: '',
+      selectedSeat: {}
+    };
+  },
+  methods: {
+    changeClass: function changeClass(statusId) {
+      if (statusId === 0) {
+        this.seatStatus = 0;
+        return 'buying-scheme__chair_disabled';
+      }
+
+      if (statusId === 1) {
+        this.seatStatus = 1;
+        return 'buying-scheme__chair_standart';
+      }
+
+      if (statusId === 2) {
+        this.seatStatus = 2;
+        return 'buying-scheme__chair_vip';
+      }
+    },
+    chooseSeat: function chooseSeat(event) {
+      var _this = this;
+
+      if (event.target.classList.contains('buying-scheme__chair_selected')) {
+        event.target.classList.remove('buying-scheme__chair_selected');
+        var index = this.$store.state.selectedSeats.findIndex(function (n) {
+          return n.id === _this.selectedSeat.id;
+        });
+
+        if (index !== -1) {
+          this.$store.state.selectedSeats.splice(index, 1);
+        }
+
+        this.selectedSeat = {};
+        console.log('remove');
+      } else {
+        event.target.classList.add('buying-scheme__chair_selected');
+        this.selectedSeat.id = Math.random();
+        this.selectedSeat.status = this.seatStatus;
+        this.selectedSeat.row = this.row;
+        this.selectedSeat.seat = this.seat;
+        this.selectedSeat.price = this.seatStatus === 1 ? this.$store.state.CurrentHallClient.price : this.$store.state.CurrentHallClient.vip_price;
+        this.$store.state.selectedSeats.push(this.selectedSeat);
+        console.log('add');
+      }
+    }
+  },
+  computed: {
+    getClass: function getClass() {
+      var _this2 = this;
+
+      var seatItem = this.$store.state.CurrentHallClient.allSeats.find(function (el) {
+        return el.row_number == _this2.row && el.seat_number === _this2.seat;
+      });
+      return this.changeClass(seatItem.status);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallRow.vue?vue&type=script&lang=js":
 /*!*************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallRow.vue?vue&type=script&lang=js ***!
@@ -18373,7 +18564,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HallRow",
-  props: ['row', 'hallId'],
+  props: ['row', 'hallId', 'loading'],
   components: {
     HallSeat: _HallSeat__WEBPACK_IMPORTED_MODULE_0__.default
   },
@@ -18420,7 +18611,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    // this.statusId = 0
     var seatItem = this.$store.state.CurrentHall.allSeats.find(function (el) {
       return el.row_number === _this.row && el.seat_number === _this.seat && el.hall_id === _this.hallId;
     });
@@ -18583,7 +18773,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MovieSeancesHall",
-  props: ['hall'],
+  props: ['hall', 'item'],
   components: {
     MovieSeancesTime: _MovieSeancesTime__WEBPACK_IMPORTED_MODULE_0__.default
   }
@@ -18604,7 +18794,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MovieSeancesTime",
-  props: ['time']
+  props: ['time', 'hallId', 'movieId']
 });
 
 /***/ }),
@@ -18672,6 +18862,57 @@ for (var i = 0; i <= 5; i += 1) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentComponent.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentComponent.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PaymentInfoSeats__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PaymentInfoSeats */ "./resources/js/components/PaymentInfoSeats.vue");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "PaymentComponent",
+  components: {
+    PaymentInfoSeats: _PaymentInfoSeats__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  props: ['time', 'movieId', 'hallId'],
+  data: function data() {
+    return {
+      seats: this.$store.state.selectedSeats
+    };
+  },
+  methods: {
+    getTicket: function getTicket() {
+      console.log('ok');
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentInfoSeats.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentInfoSeats.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "PaymentInfoSeats",
+  props: ['seat']
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PriceConfigComponent.vue?vue&type=script&lang=js":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PriceConfigComponent.vue?vue&type=script&lang=js ***!
@@ -18703,28 +18944,27 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/api/get-current-hall', item).then(function (response) {
-        console.log(response.data);
-        _this.$store.state.CurrentHall = response.data;
-        _this.normalPrice = _this.$store.state.CurrentHall.price;
-        _this.vipPrice = _this.$store.state.CurrentHall.vip_price;
+        _this.$store.state.CurrentHallForPrice = response.data;
+        _this.normalPrice = _this.$store.state.CurrentHallForPrice.price;
+        _this.vipPrice = _this.$store.state.CurrentHallForPrice.vip_price;
       })["catch"](function (error) {
         return console.error(error);
       });
     },
     stateChange: function stateChange() {
-      this.$store.state.CurrentHall.price = this.normalPrice;
-      this.$store.state.CurrentHall.vip_price = this.vipPrice;
+      this.$store.state.CurrentHallForPrice.price = this.normalPrice;
+      this.$store.state.CurrentHallForPrice.vip_price = this.vipPrice;
     },
     updateConfigHall: function updateConfigHall() {
-      this.$store.dispatch('updatePrice', this.$store.state.CurrentHall);
+      this.$store.dispatch('updatePrice', this.$store.state.CurrentHallForPrice);
     },
     resetForm: function resetForm() {
       var _this2 = this;
 
-      axios.post('/api/get-current-hall', this.$store.state.CurrentHall).then(function (response) {
-        _this2.$store.state.CurrentHall = response.data;
-        _this2.normalPrice = _this2.$store.state.CurrentHall.price;
-        _this2.vipPrice = _this2.$store.state.CurrentHall.vip_price;
+      axios.post('/api/get-current-hall', this.$store.state.CurrentHallForPrice).then(function (response) {
+        _this2.$store.state.CurrentHallForPrice = response.data;
+        _this2.normalPrice = _this2.$store.state.CurrentHallForPrice.price;
+        _this2.vipPrice = _this2.$store.state.CurrentHallForPrice.vip_price;
       })["catch"](function (error) {
         return console.error(error);
       });
@@ -19007,18 +19247,12 @@ __webpack_require__.r(__webpack_exports__);
     NavComponent: _components_NavComponent__WEBPACK_IMPORTED_MODULE_1__.default,
     MovieComponent: _components_MovieComponent__WEBPACK_IMPORTED_MODULE_2__.default
   },
-  created: function created() {
-    console.log(this.$store.state.MovieShowToday);
-  },
   methods: {
     add: function add() {
       this.$store.commit('increment');
     },
     incrementAsync: function incrementAsync() {
       this.$store.dispatch('incrementAsync');
-    },
-    testApi: function testApi() {
-      this.$store.dispatch('asyncApiArrayAdd');
     }
   }
 });
@@ -19475,10 +19709,11 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_HallRow, {
       key: id,
       row: row,
-      hallId: _ctx.$store.state.CurrentHall.id
+      hallId: _ctx.$store.state.CurrentHall.id,
+      loading: $data.loading
     }, null, 8
     /* PROPS */
-    , ["row", "hallId"]);
+    , ["row", "hallId", "loading"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("fieldset", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
@@ -19640,6 +19875,313 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPay.vue?vue&type=template&id=78611b94&scoped=true":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPay.vue?vue&type=template&id=78611b94&scoped=true ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-78611b94");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-78611b94");
+
+var _hoisted_1 = {
+  "class": "buying"
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_HallPayBuyingInfo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("HallPayBuyingInfo");
+
+  var _component_HallPayBuyingScheme = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("HallPayBuyingScheme");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("section", _hoisted_1, [_ctx.$store.state.LoadingHall && _ctx.$store.state.LoadingMovies ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_HallPayBuyingInfo, {
+    key: 0
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.$store.state.LoadingHall && _ctx.$store.state.LoadingMovies ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_HallPayBuyingScheme, {
+    key: 1
+  })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingInfo.vue?vue&type=template&id=3cd8861e&scoped=true":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingInfo.vue?vue&type=template&id=3cd8861e&scoped=true ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-3cd8861e");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-3cd8861e");
+
+var _hoisted_1 = {
+  "class": "buying__info"
+};
+var _hoisted_2 = {
+  "class": "buying__info-description"
+};
+var _hoisted_3 = {
+  "class": "buying__info-title"
+};
+var _hoisted_4 = {
+  "class": "buying__info-start"
+};
+var _hoisted_5 = {
+  "class": "buying__info-hall"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "buying__info-hint"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Тапните дважды,"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("br"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("чтобы увеличить")])], -1
+/* HOISTED */
+);
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.MoviesList.find(function (el) {
+    return el.id == _ctx.$route.query.movieId;
+  }).name), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_4, "Начало сеанса: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$route.query.time), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.HallList.find(function (el) {
+    return el.id == _ctx.$route.query.hallId;
+  }).name), 1
+  /* TEXT */
+  )]), _hoisted_6]);
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingScheme.vue?vue&type=template&id=841a24d6&scoped=true":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingScheme.vue?vue&type=template&id=841a24d6&scoped=true ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-841a24d6");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-841a24d6");
+
+var _hoisted_1 = {
+  "class": "buying-scheme"
+};
+var _hoisted_2 = {
+  "class": "buying-scheme__wrapper"
+};
+var _hoisted_3 = {
+  "class": "buying-scheme__legend"
+};
+var _hoisted_4 = {
+  "class": "col"
+};
+var _hoisted_5 = {
+  "class": "buying-scheme__legend-price"
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "buying-scheme__chair buying-scheme__chair_standart"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Свободно (");
+
+var _hoisted_8 = {
+  "class": "buying-scheme__legend-value"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" руб)");
+
+var _hoisted_10 = {
+  "class": "buying-scheme__legend-price"
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "buying-scheme__chair buying-scheme__chair_vip"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Свободно VIP (");
+
+var _hoisted_13 = {
+  "class": "buying-scheme__legend-value"
+};
+
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" руб)");
+
+var _hoisted_15 = {
+  "class": "col"
+};
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "buying-scheme__legend-price"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "buying-scheme__chair buying-scheme__chair_taken"
+}), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Занято")], -1
+/* HOISTED */
+);
+
+var _hoisted_17 = {
+  "class": "buying-scheme__legend-price"
+};
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+  "class": "buying-scheme__chair buying-scheme__chair_selected"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Забронировать");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_HallPayBuyingSchemeRow = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("HallPayBuyingSchemeRow");
+
+  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$store.state.CurrentHallClient.row, function (row, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_HallPayBuyingSchemeRow, {
+      key: index,
+      row: row
+    }, null, 8
+    /* PROPS */
+    , ["row"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_5, [_hoisted_6, _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.CurrentHallClient.price), 1
+  /* TEXT */
+  ), _hoisted_9]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_10, [_hoisted_11, _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.CurrentHallClient.vip_price), 1
+  /* TEXT */
+  ), _hoisted_14])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Выбрано " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getPriceTicket), 1
+  /* TEXT */
+  )])])])]), _ctx.$store.state.selectedSeats.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_router_link, {
+    key: 0,
+    tag: "button",
+    "class": "acceptin-button",
+    to: {
+      name: 'payment',
+      params: {
+        time: $data.time,
+        hallId: $data.hallId,
+        movieId: $data.movieId
+      }
+    }
+  }, {
+    "default": _withId(function () {
+      return [_hoisted_19];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["to"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64
+  /* STABLE_FRAGMENT */
+  );
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=template&id=157de196&scoped=true":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=template&id=157de196&scoped=true ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-157de196");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-157de196");
+
+var _hoisted_1 = {
+  "class": "buying-scheme__row"
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_HallPayBuyingSchemeSeat = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("HallPayBuyingSchemeSeat");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$store.state.CurrentHallClient.seats, function (seat, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_HallPayBuyingSchemeSeat, {
+      key: index,
+      seat: seat,
+      row: $props.row
+    }, null, 8
+    /* PROPS */
+    , ["seat", "row"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]);
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=template&id=301a628c&scoped=true":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=template&id=301a628c&scoped=true ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-301a628c");
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", {
+    "class": ["buying-scheme__chair", $options.getClass],
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $options.chooseSeat && $options.chooseSeat.apply($options, arguments);
+    })
+  }, null, 2
+  /* CLASS */
+  );
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallRow.vue?vue&type=template&id=0c158874&scoped=true":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallRow.vue?vue&type=template&id=0c158874&scoped=true ***!
@@ -19667,7 +20209,9 @@ var _hoisted_1 = {
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_HallSeat = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("HallSeat");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(+_ctx.$store.state.CurrentHall.seats, function (seat, id) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [$props.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 0
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(+_ctx.$store.state.CurrentHall.seats, function (seat, id) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_HallSeat, {
       key: id + Math.random(),
       row: $props.row,
@@ -19678,7 +20222,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     , ["row", "seat", "hallId"]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))]);
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 });
 
 /***/ }),
@@ -19993,16 +20537,19 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.item.movie_show_duration) + " минут", 1
   /* TEXT */
-  ), _hoisted_9])])]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.item.halls, function (hall) {
+  ), _hoisted_9])])]), _ctx.$store.state.LoadingHall ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 0
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.item.halls, function (hall) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_MovieSeancesHall, {
       key: hall.hallId,
-      hall: hall
+      hall: hall,
+      item: $props.item
     }, null, 8
     /* PROPS */
-    , ["hall"]);
+    , ["hall", "item"]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])]);
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 });
 
 /***/ }),
@@ -20088,15 +20635,19 @@ var _hoisted_3 = {
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_MovieSeancesTime = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("MovieSeancesTime");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.hall), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.HallList.find(function (el) {
+    return el.id === $props.hall.hallId;
+  }).name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.hall.times, function (time, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_MovieSeancesTime, {
       key: index,
-      time: time
+      time: time,
+      hallId: $props.hall.hallId,
+      movieId: $props.item.movie_id
     }, null, 8
     /* PROPS */
-    , ["time"]);
+    , ["time", "hallId", "movieId"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])]);
@@ -20125,17 +20676,35 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 var _hoisted_1 = {
   "class": "movie-seances__time-block"
 };
-var _hoisted_2 = {
-  "class": "movie-seances__time",
-  href: "hall.html"
-};
 
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.time), 1
-  /* TEXT */
-  )]);
+  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("li", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    tag: "a",
+    "class": "movie-seances__time",
+    to: {
+      name: 'hall',
+      query: {
+        time: $props.time,
+        hallId: $props.hallId,
+        movieId: $props.movieId
+      }
+    }
+  }, {
+    "default": _withId(function () {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.time), 1
+      /* TEXT */
+      )];
+    }),
+    _: 1
+    /* STABLE */
+
+  }, 8
+  /* PROPS */
+  , ["to"])]);
 });
 
 /***/ }),
@@ -20178,6 +20747,164 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   }), 128
   /* KEYED_FRAGMENT */
   ))]);
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentComponent.vue?vue&type=template&id=4f61e082&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentComponent.vue?vue&type=template&id=4f61e082&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-4f61e082");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-4f61e082");
+
+var _hoisted_1 = {
+  "class": "ticket"
+};
+
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("header", {
+  "class": "tichet__check"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
+  "class": "ticket__check-title"
+}, "Вы выбрали билеты:")], -1
+/* HOISTED */
+);
+
+var _hoisted_3 = {
+  "class": "ticket__info-wrapper"
+};
+var _hoisted_4 = {
+  "class": "ticket__info"
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("На фильм: ");
+
+var _hoisted_6 = {
+  "class": "ticket__details ticket__title"
+};
+var _hoisted_7 = {
+  "class": "ticket__info"
+};
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Места: ");
+
+var _hoisted_9 = {
+  "class": "ticket__info"
+};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("В зале: ");
+
+var _hoisted_11 = {
+  "class": "ticket__details ticket__hall"
+};
+var _hoisted_12 = {
+  "class": "ticket__info"
+};
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Начало сеанса: ");
+
+var _hoisted_14 = {
+  "class": "ticket__details ticket__start"
+};
+var _hoisted_15 = {
+  "class": "ticket__info"
+};
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Стоимость: ");
+
+var _hoisted_17 = {
+  "class": "ticket__details ticket__cost"
+};
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" рублей");
+
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "ticket__hint"
+}, "После оплаты билет будет доступен в этом окне, а также придёт вам на почту. Покажите QR-код нашему контроллёру у входа в зал.", -1
+/* HOISTED */
+);
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "ticket__hint"
+}, "Приятного просмотра!", -1
+/* HOISTED */
+);
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_PaymentInfoSeats = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PaymentInfoSeats");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("main", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("section", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.MoviesList.find(function (el) {
+    return el.id == $props.movieId;
+  }).name), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, [_hoisted_8, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.seats, function (seat) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_PaymentInfoSeats, {
+      key: seat.id,
+      seat: seat
+    }, null, 8
+    /* PROPS */
+    , ["seat"]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.HallList.find(function (el) {
+    return $props.hallId;
+  }).name), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.time), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.TotalPrice), 1
+  /* TEXT */
+  ), _hoisted_18]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    "class": "acceptin-button",
+    onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.getTicket && $options.getTicket.apply($options, arguments);
+    }, ["prevent"]))
+  }, "Получить код бронирования"), _hoisted_19, _hoisted_20])])]);
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentInfoSeats.vue?vue&type=template&id=30676505&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentInfoSeats.vue?vue&type=template&id=30676505&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+
+var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("data-v-30676505");
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-30676505");
+
+var _hoisted_1 = {
+  "class": "ticket__details ticket__chairs"
+};
+
+(0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
+
+var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_1, " Ряд " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.seat.row) + " Место " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.seat.seat), 1
+  /* TEXT */
+  );
 });
 
 /***/ }),
@@ -21291,11 +22018,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 /* harmony import */ var _views_Client_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./views/Client.vue */ "./resources/js/views/Client.vue");
 /* harmony import */ var _views_Admin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/Admin */ "./resources/js/views/Admin.vue");
 /* harmony import */ var _views_LoginForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/LoginForm */ "./resources/js/views/LoginForm.vue");
 /* harmony import */ var _views_RegisterForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/RegisterForm */ "./resources/js/views/RegisterForm.vue");
+/* harmony import */ var _components_HallPay__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/HallPay */ "./resources/js/components/HallPay.vue");
+/* harmony import */ var _components_PaymentComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/PaymentComponent */ "./resources/js/components/PaymentComponent.vue");
+
+
 
 
 
@@ -21313,9 +22044,19 @@ var routes = [{
 }, {
   path: '/register',
   component: _views_RegisterForm__WEBPACK_IMPORTED_MODULE_3__.default
+}, {
+  path: '/hall',
+  name: 'hall',
+  component: _components_HallPay__WEBPACK_IMPORTED_MODULE_4__.default,
+  props: true
+}, {
+  path: '/payment',
+  name: 'payment',
+  component: _components_PaymentComponent__WEBPACK_IMPORTED_MODULE_5__.default,
+  props: true
 }];
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue_router__WEBPACK_IMPORTED_MODULE_4__.createRouter)({
-  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_4__.createWebHistory)(),
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue_router__WEBPACK_IMPORTED_MODULE_6__.createRouter)({
+  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_6__.createWebHistory)(),
   routes: routes
 }));
 
@@ -21436,46 +22177,54 @@ __webpack_require__.r(__webpack_exports__);
       return console.error(error);
     });
   },
-  updateHall: function updateHall(_ref9, payload) {
+  getCurrentHallClient: function getCurrentHallClient(_ref9, payload) {
     var commit = _ref9.commit;
+    axios.post('/api/get-current-hall', payload).then(function (response) {
+      commit('showCurrentHallClient', response.data);
+    })["catch"](function (error) {
+      return console.error(error);
+    });
+  },
+  updateHall: function updateHall(_ref10, payload) {
+    var commit = _ref10.commit;
     axios.post('/api/update-hall', payload).then(function (response) {//commit('showCurrentHall', response.data)
     })["catch"](function (error) {
       return console.error(error);
     });
   },
-  updatePrice: function updatePrice(_ref10, payload) {
-    var commit = _ref10.commit;
+  updatePrice: function updatePrice(_ref11, payload) {
+    var commit = _ref11.commit;
     axios.post('/api/update-price', payload).then(function (response) {//commit('showCurrentHall', response.data)
     })["catch"](function (error) {
       return console.error(error);
     });
   },
-  getSeat: function getSeat(_ref11, payload) {
-    var commit = _ref11.commit;
+  getSeat: function getSeat(_ref12, payload) {
+    var commit = _ref12.commit;
     axios.post('/api/get-seat', payload).then(function (response) {
       commit('showSeats', response.data);
     })["catch"](function (error) {
       return console.error(error);
     });
   },
-  saveSessions: function saveSessions(_ref12, payload) {
-    var commit = _ref12.commit;
+  saveSessions: function saveSessions(_ref13, payload) {
+    var commit = _ref13.commit;
     axios.post('/api/save-sessions', payload).then(function (response) {
       commit('showSessions', response.data);
     })["catch"](function (error) {
       return console.error(error);
     });
   },
-  getSessions: function getSessions(_ref13, payload) {
-    var commit = _ref13.commit;
+  getSessions: function getSessions(_ref14, payload) {
+    var commit = _ref14.commit;
     axios.post('/api/get-sessions', payload).then(function (response) {
       commit('showSessions', response.data);
     })["catch"](function (error) {
       return console.error(error);
     });
   },
-  getMovieToDay: function getMovieToDay(_ref14, payload) {
-    var commit = _ref14.commit;
+  getMovieToDay: function getMovieToDay(_ref15, payload) {
+    var commit = _ref15.commit;
     axios.post('/api/get-movie-today', payload).then(function (response) {
       commit('showSessionsToday', response.data);
     })["catch"](function (error) {
@@ -21549,6 +22298,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   getMovie: function getMovie(state, payload) {
     state.MoviesList = payload;
+    state.LoadingMovies = true;
   },
   getHall: function getHall(state, payload) {
     state.HallList = payload;
@@ -21557,6 +22307,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   showCurrentHall: function showCurrentHall(state, payload) {
     state.CurrentHall = payload;
     state.CurrentHall.seatsStatus = [];
+    state.LoadingCurrentHall = true;
+  },
+  showCurrentHallClient: function showCurrentHallClient(state, payload) {
+    state.CurrentHallClient = payload;
+    state.CurrentHallClient.seatsStatus = [];
+    state.LoadingCurrentHallClient = true;
   },
   showSeats: function showSeats(state, payload) {
     state.Seats = payload;
@@ -21569,7 +22325,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return el.movie_id;
     })));
 
-    console.log(moviesId);
     var arr = [];
     moviesId.forEach(function (movieId) {
       var movieSection = {};
@@ -21629,12 +22384,19 @@ __webpack_require__.r(__webpack_exports__);
     name: null
   },
   LoadingHall: false,
+  LoadingMovies: false,
+  LoadingCurrentHall: false,
+  LoadingCurrentHallClient: false,
   MoviesList: [],
   HallList: [],
   CurrentHall: [],
+  CurrentHallForPrice: [],
+  CurrentHallClient: [],
   ShowTimeList: [],
   ShowTimeBuffer: {},
   MovieShowToday: [],
+  selectedSeats: [],
+  TotalPrice: 0,
   Seats: [],
   Modals: {
     addMovie: {
@@ -79069,6 +79831,141 @@ _HallItemComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.defa
 
 /***/ }),
 
+/***/ "./resources/js/components/HallPay.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/components/HallPay.vue ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _HallPay_vue_vue_type_template_id_78611b94_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallPay.vue?vue&type=template&id=78611b94&scoped=true */ "./resources/js/components/HallPay.vue?vue&type=template&id=78611b94&scoped=true");
+/* harmony import */ var _HallPay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HallPay.vue?vue&type=script&lang=js */ "./resources/js/components/HallPay.vue?vue&type=script&lang=js");
+
+
+
+_HallPay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _HallPay_vue_vue_type_template_id_78611b94_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_HallPay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-78611b94"
+/* hot reload */
+if (false) {}
+
+_HallPay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/HallPay.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_HallPay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingInfo.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingInfo.vue ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _HallPayBuyingInfo_vue_vue_type_template_id_3cd8861e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallPayBuyingInfo.vue?vue&type=template&id=3cd8861e&scoped=true */ "./resources/js/components/HallPayBuyingInfo.vue?vue&type=template&id=3cd8861e&scoped=true");
+/* harmony import */ var _HallPayBuyingInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HallPayBuyingInfo.vue?vue&type=script&lang=js */ "./resources/js/components/HallPayBuyingInfo.vue?vue&type=script&lang=js");
+
+
+
+_HallPayBuyingInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _HallPayBuyingInfo_vue_vue_type_template_id_3cd8861e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_HallPayBuyingInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-3cd8861e"
+/* hot reload */
+if (false) {}
+
+_HallPayBuyingInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/HallPayBuyingInfo.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_HallPayBuyingInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingScheme.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingScheme.vue ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _HallPayBuyingScheme_vue_vue_type_template_id_841a24d6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallPayBuyingScheme.vue?vue&type=template&id=841a24d6&scoped=true */ "./resources/js/components/HallPayBuyingScheme.vue?vue&type=template&id=841a24d6&scoped=true");
+/* harmony import */ var _HallPayBuyingScheme_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HallPayBuyingScheme.vue?vue&type=script&lang=js */ "./resources/js/components/HallPayBuyingScheme.vue?vue&type=script&lang=js");
+
+
+
+_HallPayBuyingScheme_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _HallPayBuyingScheme_vue_vue_type_template_id_841a24d6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_HallPayBuyingScheme_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-841a24d6"
+/* hot reload */
+if (false) {}
+
+_HallPayBuyingScheme_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/HallPayBuyingScheme.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_HallPayBuyingScheme_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingSchemeRow.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingSchemeRow.vue ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _HallPayBuyingSchemeRow_vue_vue_type_template_id_157de196_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallPayBuyingSchemeRow.vue?vue&type=template&id=157de196&scoped=true */ "./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=template&id=157de196&scoped=true");
+/* harmony import */ var _HallPayBuyingSchemeRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HallPayBuyingSchemeRow.vue?vue&type=script&lang=js */ "./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=script&lang=js");
+
+
+
+_HallPayBuyingSchemeRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _HallPayBuyingSchemeRow_vue_vue_type_template_id_157de196_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_HallPayBuyingSchemeRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-157de196"
+/* hot reload */
+if (false) {}
+
+_HallPayBuyingSchemeRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/HallPayBuyingSchemeRow.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_HallPayBuyingSchemeRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingSchemeSeat.vue":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingSchemeSeat.vue ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _HallPayBuyingSchemeSeat_vue_vue_type_template_id_301a628c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./HallPayBuyingSchemeSeat.vue?vue&type=template&id=301a628c&scoped=true */ "./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=template&id=301a628c&scoped=true");
+/* harmony import */ var _HallPayBuyingSchemeSeat_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HallPayBuyingSchemeSeat.vue?vue&type=script&lang=js */ "./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=script&lang=js");
+
+
+
+_HallPayBuyingSchemeSeat_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _HallPayBuyingSchemeSeat_vue_vue_type_template_id_301a628c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_HallPayBuyingSchemeSeat_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-301a628c"
+/* hot reload */
+if (false) {}
+
+_HallPayBuyingSchemeSeat_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/HallPayBuyingSchemeSeat.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_HallPayBuyingSchemeSeat_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
 /***/ "./resources/js/components/HallRow.vue":
 /*!*********************************************!*\
   !*** ./resources/js/components/HallRow.vue ***!
@@ -79312,6 +80209,60 @@ if (false) {}
 _NavComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/NavComponent.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_NavComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/PaymentComponent.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PaymentComponent_vue_vue_type_template_id_4f61e082_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PaymentComponent.vue?vue&type=template&id=4f61e082&scoped=true */ "./resources/js/components/PaymentComponent.vue?vue&type=template&id=4f61e082&scoped=true");
+/* harmony import */ var _PaymentComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentComponent.vue?vue&type=script&lang=js */ "./resources/js/components/PaymentComponent.vue?vue&type=script&lang=js");
+
+
+
+_PaymentComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _PaymentComponent_vue_vue_type_template_id_4f61e082_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_PaymentComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-4f61e082"
+/* hot reload */
+if (false) {}
+
+_PaymentComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/PaymentComponent.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_PaymentComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentInfoSeats.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/PaymentInfoSeats.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PaymentInfoSeats_vue_vue_type_template_id_30676505_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PaymentInfoSeats.vue?vue&type=template&id=30676505&scoped=true */ "./resources/js/components/PaymentInfoSeats.vue?vue&type=template&id=30676505&scoped=true");
+/* harmony import */ var _PaymentInfoSeats_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentInfoSeats.vue?vue&type=script&lang=js */ "./resources/js/components/PaymentInfoSeats.vue?vue&type=script&lang=js");
+
+
+
+_PaymentInfoSeats_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _PaymentInfoSeats_vue_vue_type_template_id_30676505_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render
+_PaymentInfoSeats_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__scopeId = "data-v-30676505"
+/* hot reload */
+if (false) {}
+
+_PaymentInfoSeats_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "resources/js/components/PaymentInfoSeats.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_PaymentInfoSeats_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /***/ }),
 
@@ -79751,6 +80702,86 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/HallPay.vue?vue&type=script&lang=js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/HallPay.vue?vue&type=script&lang=js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPay_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPay.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPay.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingInfo.vue?vue&type=script&lang=js":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingInfo.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingInfo_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPayBuyingInfo.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingInfo.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingScheme.vue?vue&type=script&lang=js":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingScheme.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingScheme_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingScheme_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPayBuyingScheme.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingScheme.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=script&lang=js":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=script&lang=js ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingSchemeRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingSchemeRow_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPayBuyingSchemeRow.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=script&lang=js":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=script&lang=js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingSchemeSeat_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingSchemeSeat_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPayBuyingSchemeSeat.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/HallRow.vue?vue&type=script&lang=js":
 /*!*********************************************************************!*\
   !*** ./resources/js/components/HallRow.vue?vue&type=script&lang=js ***!
@@ -79891,6 +80922,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NavComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NavComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NavComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/NavComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentComponent.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/PaymentComponent.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PaymentComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentInfoSeats.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/PaymentInfoSeats.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentInfoSeats_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentInfoSeats_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PaymentInfoSeats.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentInfoSeats.vue?vue&type=script&lang=js");
  
 
 /***/ }),
@@ -80199,6 +81262,86 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/HallPay.vue?vue&type=template&id=78611b94&scoped=true":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/HallPay.vue?vue&type=template&id=78611b94&scoped=true ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPay_vue_vue_type_template_id_78611b94_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPay_vue_vue_type_template_id_78611b94_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPay.vue?vue&type=template&id=78611b94&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPay.vue?vue&type=template&id=78611b94&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingInfo.vue?vue&type=template&id=3cd8861e&scoped=true":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingInfo.vue?vue&type=template&id=3cd8861e&scoped=true ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingInfo_vue_vue_type_template_id_3cd8861e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingInfo_vue_vue_type_template_id_3cd8861e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPayBuyingInfo.vue?vue&type=template&id=3cd8861e&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingInfo.vue?vue&type=template&id=3cd8861e&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingScheme.vue?vue&type=template&id=841a24d6&scoped=true":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingScheme.vue?vue&type=template&id=841a24d6&scoped=true ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingScheme_vue_vue_type_template_id_841a24d6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingScheme_vue_vue_type_template_id_841a24d6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPayBuyingScheme.vue?vue&type=template&id=841a24d6&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingScheme.vue?vue&type=template&id=841a24d6&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=template&id=157de196&scoped=true":
+/*!******************************************************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=template&id=157de196&scoped=true ***!
+  \******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingSchemeRow_vue_vue_type_template_id_157de196_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingSchemeRow_vue_vue_type_template_id_157de196_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPayBuyingSchemeRow.vue?vue&type=template&id=157de196&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeRow.vue?vue&type=template&id=157de196&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=template&id=301a628c&scoped=true":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=template&id=301a628c&scoped=true ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingSchemeSeat_vue_vue_type_template_id_301a628c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_HallPayBuyingSchemeSeat_vue_vue_type_template_id_301a628c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./HallPayBuyingSchemeSeat.vue?vue&type=template&id=301a628c&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HallPayBuyingSchemeSeat.vue?vue&type=template&id=301a628c&scoped=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/HallRow.vue?vue&type=template&id=0c158874&scoped=true":
 /*!***************************************************************************************!*\
   !*** ./resources/js/components/HallRow.vue?vue&type=template&id=0c158874&scoped=true ***!
@@ -80339,6 +81482,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NavComponent_vue_vue_type_template_id_152c8205_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_NavComponent_vue_vue_type_template_id_152c8205_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./NavComponent.vue?vue&type=template&id=152c8205&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/NavComponent.vue?vue&type=template&id=152c8205&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentComponent.vue?vue&type=template&id=4f61e082&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/PaymentComponent.vue?vue&type=template&id=4f61e082&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentComponent_vue_vue_type_template_id_4f61e082_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentComponent_vue_vue_type_template_id_4f61e082_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PaymentComponent.vue?vue&type=template&id=4f61e082&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentComponent.vue?vue&type=template&id=4f61e082&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/PaymentInfoSeats.vue?vue&type=template&id=30676505&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/PaymentInfoSeats.vue?vue&type=template&id=30676505&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentInfoSeats_vue_vue_type_template_id_30676505_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_PaymentInfoSeats_vue_vue_type_template_id_30676505_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./PaymentInfoSeats.vue?vue&type=template&id=30676505&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PaymentInfoSeats.vue?vue&type=template&id=30676505&scoped=true");
 
 
 /***/ }),

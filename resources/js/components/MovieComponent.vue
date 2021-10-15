@@ -15,7 +15,7 @@
             </div>
         </div>
 
-            <MovieSeancesHall v-for="hall in item.halls" :key="hall.hallId" :hall="hall"></MovieSeancesHall>
+            <MovieSeancesHall v-for="hall in item.halls" :key="hall.hallId" :hall="hall" v-if="$store.state.LoadingHall" :item="item"></MovieSeancesHall>
 
 
     </section>

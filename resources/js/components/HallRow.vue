@@ -6,6 +6,7 @@
          :row="row"
          :seat="seat"
          :hallId="hallId"
+         v-if="loading"
 
         ></HallSeat>
 </div>
@@ -15,7 +16,7 @@
     import HallSeat from "./HallSeat";
     export default {
         name: "HallRow",
-        props: ['row', 'hallId'],
+        props: ['row', 'hallId', 'loading'],
         components: {HallSeat},
         methods: {
 
