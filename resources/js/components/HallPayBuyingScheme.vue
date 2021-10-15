@@ -16,7 +16,7 @@
     </div>
 
 
-    <router-link tag="button" class="acceptin-button" v-if="$store.state.selectedSeats.length > 0" :to="{ name: 'payment', params: {time, hallId, movieId} }" > Забронировать</router-link>
+    <router-link tag="button" class="acceptin-button" v-if="$store.state.selectedSeats.length > 0" :to="{ name: 'payment', params: {time, hallId, movieId, sessionId} }" > Забронировать</router-link>
 
 
 
@@ -29,7 +29,8 @@
         components: {HallPayBuyingSchemeRow},
         data(){
             return {
-                time: this.$route.query.time,
+                sessionId: this.$route.query.sessionId,
+                time: this.$route.query.startTime,
                 movieId: this.$route.query.movieId,
                 hallId: this.$route.query.hallId,
                 item: {

@@ -2,8 +2,9 @@
 
     <div class="movie-seances__hall">
         <h3 class="movie-seances__hall-title">{{ $store.state.HallList.find(el => el.id === hall.hallId ).name }}</h3>
+
         <ul class="movie-seances__list">
-            <MovieSeancesTime v-for="(time, index) in hall.times" :key="index" :time="time" :hallId="hall.hallId" :movieId="item.movie_id"></MovieSeancesTime>
+            <MovieSeancesTime v-for="(session, index) in hall.sessions" :key="index" :session="session" :hallId="hall.hallId" :movieId="item.movie_id"></MovieSeancesTime>
         </ul>
     </div>
 </template>

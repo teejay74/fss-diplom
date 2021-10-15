@@ -58,10 +58,18 @@ export default {
             hallsId.forEach(function (hallId) {
                 let hallObj = {}
                 hallObj.hallId = hallId
-                let timesArr = []
+                //let timesArr = []
+                let sessionArr = []
                 const timesSession = payload.filter(el => el.movie_id === movieId && el.hall_id === hallId)
-                timesSession.forEach(el => timesArr.push(el.start_time))
-                hallObj.times = timesArr.sort()
+                //timesSession.forEach(el => timesArr.push(el.start_time))
+                timesSession.forEach(function (el) {
+                    const sessionObj = {}
+                    sessionObj.id = el.id
+                    sessionObj.startTime = el.start_time
+                    sessionArr.push(sessionObj)
+                })
+                //hallObj.times = timesArr.sort()
+                hallObj.sessions = sessionArr.sort((prev, next) => prev.startTime - next.startTime)
                 hallsArr.push(hallObj)
             })
             movieSection.halls = hallsArr

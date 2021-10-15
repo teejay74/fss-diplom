@@ -12,7 +12,7 @@
                 <p class="ticket__info">В зале: <span class="ticket__details ticket__hall">{{ $store.state.HallList.find(el => hallId ).name}}</span></p>
                 <p class="ticket__info">Начало сеанса: <span class="ticket__details ticket__start">{{ time }}</span></p>
                 <p class="ticket__info">Стоимость: <span class="ticket__details ticket__cost">{{ $store.state.TotalPrice }}</span> рублей</p>
-
+                {{ $store.state.MovieShowToday }}
                 <button class="acceptin-button" @click.prevent="getTicket" >Получить код бронирования</button>
 
                 <p class="ticket__hint">После оплаты билет будет доступен в этом окне, а также придёт вам на почту. Покажите QR-код нашему контроллёру у входа в зал.</p>

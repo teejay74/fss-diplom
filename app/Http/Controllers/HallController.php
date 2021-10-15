@@ -9,6 +9,7 @@ use App\Models\Seat;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
+
 class HallController extends Controller
 
 {

@@ -18424,7 +18424,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      time: this.$route.query.time,
+      sessionId: this.$route.query.sessionId,
+      time: this.$route.query.startTime,
       movieId: this.$route.query.movieId,
       hallId: this.$route.query.hallId,
       item: {
@@ -18794,7 +18795,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "MovieSeancesTime",
-  props: ['time', 'hallId', 'movieId']
+  props: ['session', 'hallId', 'movieId'],
+  data: function data() {
+    return {
+      startTime: this.session.startTime,
+      sessionId: this.session.id
+    };
+  }
 });
 
 /***/ }),
@@ -19960,7 +19967,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     return el.id == _ctx.$route.query.movieId;
   }).name), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_4, "Начало сеанса: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$route.query.time), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_4, "Начало сеанса: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$route.query.startTime), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.HallList.find(function (el) {
     return el.id == _ctx.$route.query.hallId;
@@ -20092,7 +20099,8 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       params: {
         time: $data.time,
         hallId: $data.hallId,
-        movieId: $data.movieId
+        movieId: $data.movieId,
+        sessionId: $data.sessionId
       }
     }
   }, {
@@ -20639,15 +20647,15 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     return el.id === $props.hall.hallId;
   }).name), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.hall.times, function (time, index) {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.hall.sessions, function (session, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_MovieSeancesTime, {
       key: index,
-      time: time,
+      session: session,
       hallId: $props.hall.hallId,
       movieId: $props.item.movie_id
     }, null, 8
     /* PROPS */
-    , ["time", "hallId", "movieId"]);
+    , ["session", "hallId", "movieId"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])]);
@@ -20688,14 +20696,15 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     to: {
       name: 'hall',
       query: {
-        time: $props.time,
+        sessionId: $data.sessionId,
+        startTime: $data.startTime,
         hallId: $props.hallId,
         movieId: $props.movieId
       }
     }
   }, {
     "default": _withId(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.time), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.session.startTime), 1
       /* TEXT */
       )];
     }),
@@ -20867,7 +20876,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.TotalPrice), 1
   /* TEXT */
-  ), _hoisted_18]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  ), _hoisted_18]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$store.state.MovieShowToday) + " ", 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     "class": "acceptin-button",
     onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.getTicket && $options.getTicket.apply($options, arguments);
@@ -22344,15 +22355,23 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var hallsArr = [];
       hallsId.forEach(function (hallId) {
         var hallObj = {};
-        hallObj.hallId = hallId;
-        var timesArr = [];
+        hallObj.hallId = hallId; //let timesArr = []
+
+        var sessionArr = [];
         var timesSession = payload.filter(function (el) {
           return el.movie_id === movieId && el.hall_id === hallId;
-        });
+        }); //timesSession.forEach(el => timesArr.push(el.start_time))
+
         timesSession.forEach(function (el) {
-          return timesArr.push(el.start_time);
+          var sessionObj = {};
+          sessionObj.id = el.id;
+          sessionObj.startTime = el.start_time;
+          sessionArr.push(sessionObj);
+        }); //hallObj.times = timesArr.sort()
+
+        hallObj.sessions = sessionArr.sort(function (prev, next) {
+          return prev.startTime - next.startTime;
         });
-        hallObj.times = timesArr.sort();
         hallsArr.push(hallObj);
       });
       movieSection.halls = hallsArr;
