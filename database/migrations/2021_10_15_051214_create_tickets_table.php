@@ -16,7 +16,7 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('show_id');
-            $table->unsignedBigInteger('start_time');
+            $table->string('start_time');
             $table->json('seats');
             $table->string('hall_name');
             $table->string('start_day');

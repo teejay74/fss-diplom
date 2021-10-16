@@ -48,8 +48,6 @@
                 this.$store.dispatch('hallSave', this.formData)
                 this.formData.nameHall = ''
                 this.$store.state.Modals.addHall.opened = false
-
-
             }
         }
 

@@ -34,9 +34,6 @@
 
          created() {
              Auth.init();
-             // if(this.$store.state.Auth.login) {
-             //     this.$router.push('/admin')
-             // }
          },
          data() {
             return {

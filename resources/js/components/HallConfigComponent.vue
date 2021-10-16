@@ -101,7 +101,6 @@
                     this.stateRow = this.$store.state.CurrentHall.row
                     this.stateSeats = this.$store.state.CurrentHall.seats
                     this.loading = true
-
                 }).catch(error => console.error(error));
             },
             updateConfigHall() {

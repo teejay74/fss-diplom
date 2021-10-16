@@ -38,14 +38,10 @@
 
 
         created() {
-
             let seatItem = this.$store.state.CurrentHall.allSeats.find(el => el.row_number === this.row && el.seat_number === this.seat && el.hall_id === this.hallId)
-
                 if(seatItem) {
                     this.statusId = seatItem.status;
-
                 }
-
         }
 
     }

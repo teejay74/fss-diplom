@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 
+
 class HallController extends Controller
 
 {
@@ -104,7 +105,6 @@ class HallController extends Controller
     }
 
     public function updateHall (Request $request) {
-
         $updatingHall = Hall::findOrFail($request->id);
         $updatingHall->row = $request->row;
         $updatingHall->seats = $request->seats;
@@ -127,6 +127,18 @@ class HallController extends Controller
         $updatingHall->save();
 
         return $updatingHall;
+    }
+
+    public function changeStatusHall (Request $request) {
+
+         $halls = Hall::all();
+        foreach ($halls as $hall) {
+            $hall->is_active = $request->status;
+            $hall->save();
+        }
+
+        return $request;
+
     }
 
 }

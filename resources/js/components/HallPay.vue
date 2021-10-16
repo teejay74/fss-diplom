@@ -1,6 +1,7 @@
 <template>
     <main>
     <section class="buying">
+
         <HallPayBuyingInfo v-if="$store.state.LoadingHall && $store.state.LoadingMovies"></HallPayBuyingInfo>
         <HallPayBuyingScheme v-if="$store.state.LoadingHall && $store.state.LoadingMovies"></HallPayBuyingScheme>
     </section>
@@ -13,13 +14,13 @@
     import HallPayBuyingScheme from "./HallPayBuyingScheme";
     export default {
         name: "HallPay",
-
         components: {HallPayBuyingInfo, HallPayBuyingScheme},
-
         created() {
             this.$store.state.selectedSeats = []
             this.$store.dispatch('getHall')
             this.$store.dispatch('getMovie')
+
+
         },
     }
 </script>

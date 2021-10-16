@@ -29,9 +29,12 @@ Route::post('/hall-save', [\App\Http\Controllers\HallController::class, 'store']
 Route::get('/get-hall', [\App\Http\Controllers\HallController::class, 'index']);
 Route::post('/hall-delete', [\App\Http\Controllers\HallController::class, 'deleteHall']);
 Route::post('/get-current-hall', [\App\Http\Controllers\HallController::class, 'getCurrentHall']);
+Route::post('/save-status-hall', [\App\Http\Controllers\HallController::class, 'changeStatusHall']);
 Route::post('/update-hall', [\App\Http\Controllers\HallController::class, 'updateHall']);
 Route::post('/update-price', [\App\Http\Controllers\HallController::class, 'updatePrice']);
 Route::post('/get-seat', [\App\Http\Controllers\SeatController::class, 'index']);
 Route::post('/save-sessions', [\App\Http\Controllers\MovieShowController::class, 'saveSessions']);
 Route::post('/get-sessions', [\App\Http\Controllers\MovieShowController::class, 'index']);
 Route::post('/get-movie-today', [\App\Http\Controllers\MovieShowController::class, 'showMoviesToday']);
+Route::post('/ticket-save', [\App\Http\Controllers\TicketController::class, 'index']);
+Route::post('/get-orders', [\App\Http\Controllers\TicketController::class, 'getOrders']);

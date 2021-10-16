@@ -1,5 +1,4 @@
 export default {
-    // apiArray: [],
     Auth: {
         login: false,
         user_id: null,
@@ -10,6 +9,7 @@ export default {
     LoadingMovies: false,
     LoadingCurrentHall: false,
     LoadingCurrentHallClient: false,
+    LoadingOrders: false,
     MoviesList: [],
     HallList: [],
     CurrentHall: [],
@@ -20,6 +20,8 @@ export default {
     MovieShowToday: [],
     selectedSeats: [],
     TotalPrice: 0,
+    Ticket: {},
+    Orders: {},
 
     Seats: [],
     Modals: {

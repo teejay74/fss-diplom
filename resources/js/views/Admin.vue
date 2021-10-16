@@ -15,7 +15,7 @@
         <HallConfigComponent></HallConfigComponent>
         <SessionGridComponent></SessionGridComponent>
         <PriceConfigComponent></PriceConfigComponent>
-        <SalesManagementComponent></SalesManagementComponent>
+        <SalesManagementComponent v-if="$store.state.LoadingHall"></SalesManagementComponent>
     </main>
 
 </template>

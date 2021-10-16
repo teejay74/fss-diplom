@@ -4,7 +4,15 @@
         <h3 class="movie-seances__hall-title">{{ $store.state.HallList.find(el => el.id === hall.hallId ).name }}</h3>
 
         <ul class="movie-seances__list">
-            <MovieSeancesTime v-for="(session, index) in hall.sessions" :key="index" :session="session" :hallId="hall.hallId" :movieId="item.movie_id"></MovieSeancesTime>
+
+            <MovieSeancesTime v-for="(session, index) in hall.sessions"
+                              :key="index"
+                              :session="session"
+                              :hallId="hall.hallId"
+                              :movieId="item.movie_id"
+                              v-if="$store.state.HallList.find(el => el.id === hall.hallId ).is_active === 1"
+
+            ></MovieSeancesTime>
         </ul>
     </div>
 </template>

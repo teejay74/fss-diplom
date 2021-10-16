@@ -1,9 +1,6 @@
 <template>
     <div class="buying-scheme__row" >
-        <HallPayBuyingSchemeSeat v-for="(seat, index) in $store.state.CurrentHallClient.seats" :key="index" :seat="seat" :row="row"></HallPayBuyingSchemeSeat>
-
-
-
+       <HallPayBuyingSchemeSeat v-for="(seat, index) in $store.state.CurrentHallClient.seats" :key="index" :seat="seat" :row="row" v-if="$store.state.LoadingOrders"></HallPayBuyingSchemeSeat>
     </div>
 </template>
 

@@ -2,8 +2,6 @@
     <HeaderComponent></HeaderComponent>
     <NavComponent></NavComponent>
     <MovieComponent v-for="item in $store.state.MovieShowToday" :key="item.id" :item="item"></MovieComponent>
-   <h1>Client</h1>
-
 </template>
 
 <script>
@@ -25,8 +23,6 @@
             incrementAsync() {
                 this.$store.dispatch('incrementAsync')
             },
-
-
         }
     }
 </script>

@@ -26,11 +26,6 @@
             dayOfWeek: curDayOfWeek,
             curDate: curDate.format('DD.MM.YYYY')
         }
-        // if(i === 0) {
-        //     objDay.active = true
-        // } else {
-        //     objDay.active = false
-        // }
         dateArray.push(objDay)
     }
 
@@ -50,7 +45,6 @@
 
                 this.dateArray.map(item=>{
                     item.active=false
-                   // item.dayOfWeek = 'NNN'
                   })
                 this.dateArray[data].active = true
             }

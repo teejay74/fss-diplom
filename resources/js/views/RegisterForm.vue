@@ -28,7 +28,7 @@
                         <input class="login__input"  v-model.trim="form.password_confirmation" type="password" placeholder="" name="pwd" required>
                     </label>
                     <div class="text-center">
-                        <input value="Авторизоваться" type="submit" class="login__button">
+                        <input value="Зарегистрироваться" type="submit" class="login__button">
                     </div>
                 </form>
             </div>

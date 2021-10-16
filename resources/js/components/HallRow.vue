@@ -18,9 +18,7 @@
         name: "HallRow",
         props: ['row', 'hallId', 'loading'],
         components: {HallSeat},
-        methods: {
 
-        }
     }
 </script>
 

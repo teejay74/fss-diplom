@@ -27,7 +27,7 @@
     export default {
         name: "HallPayBuyingScheme",
         components: {HallPayBuyingSchemeRow},
-        data(){
+        data() {
             return {
                 sessionId: this.$route.query.sessionId,
                 time: this.$route.query.startTime,
@@ -35,7 +35,8 @@
                 hallId: this.$route.query.hallId,
                 item: {
                     id: this.$route.query.hallId
-                }
+                },
+
             }
         },
         computed: {
@@ -46,7 +47,10 @@
             }
         },
         created() {
+           this.$store.state.Ticket = {},
            this.$store.dispatch('getCurrentHallClient', this.item)
+            this.$store.state.Orders = {}
+            this.$store.dispatch('getOrders', {id: this.sessionId})
 
         }
     }

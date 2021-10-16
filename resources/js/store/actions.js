@@ -82,4 +82,15 @@ export default {
             commit('showSessionsToday', response.data)
         }).catch(error => console.error(error));
     },
+    saveTicket({commit}, payload) {
+        axios.post('/api/ticket-save', payload).then(response => {
+            commit('ticketLoaded', response.data)
+        }).catch(error => console.error(error));
+    },
+    getOrders({commit}, payload) {
+        axios.post('/api/get-orders', payload).then(response => {
+             commit('setOrders', response.data)
+        }).catch(error => console.error(error));
+    },
+
 }
