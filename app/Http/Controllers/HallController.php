@@ -40,21 +40,24 @@ class HallController extends Controller
     public function saveStatus($req) {
         $seatsStatuses = $req->seatsStatus;
         foreach ($seatsStatuses as $value) {
-            $seat = Seat::all()->where('hall_id', $req->id)->where('row_number', $value['row'])->where('seat_number', $value['seat'])->first();
+            $seat = Seat::where('hall_id', $req->id)
+                ->where('row_number', $value['row'])
+                ->where('seat_number', $value['seat'])
+                ->first();
             $seat->status = $value['status'];
             $seat->save();
         }
     }
 
     public function deleteSeats($id) {
-            $seatsArr = Seat::all()->where('hall_id', $id);
+            $seatsArr = Seat::where(['hall_id' => $id])->get();
             foreach($seatsArr as $seat) {
                 $seat->delete();
             }
     }
 
     public function deleteSessions($id) {
-        $sessionsArr = MovieShow::all()->where('hall_id', $id);
+        $sessionsArr = MovieShow::where(['hall_id' => $id])->get();
         foreach($sessionsArr as $session) {
             $session->delete();
         }

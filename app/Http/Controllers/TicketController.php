@@ -14,10 +14,10 @@ use App\Models\Order;
 class TicketController extends Controller
 {
     public function index(Request $request) {
-        $hallName = Hall::all()->where('id', $request->hallId)->first()->name;
-        $movieName = Movie::all()->where('id', $request->movieId)->first()->name;
-        $startTime = MovieShow::all()->where('id', $request->sessionId)->first()->start_time;
-        $startDay = MovieShow::all()->where('id', $request->sessionId)->first()->start_day;
+        $hallName = Hall::where('id', $request->hallId)->first()->name;
+        $movieName = Movie::where('id', $request->movieId)->first()->name;
+        $startTime = MovieShow::where('id', $request->sessionId)->first()->start_time;
+        $startDay = MovieShow::where('id', $request->sessionId)->first()->start_day;
 
         $newTicket = new Ticket();
         $newTicket->show_id = $request->sessionId;
@@ -61,7 +61,7 @@ class TicketController extends Controller
         $ordersArr = [];
 
         try {
-            $Orders = Order::all()->where('show_id', $request->id);;
+            $Orders = Order::where('show_id', $request->id)->get();
             foreach ($Orders as $order) {
                 $test = json_decode($order->seats);
                 foreach ($test as $value) {

@@ -21,7 +21,7 @@ class MovieShowController extends Controller
         $arrSessions = $request->all();
         $today = date("d.m.Y");
         foreach ($arrSessions as $value) {
-            $overlayTime = MovieShow::all()->where('hall_id', $value['hall_id'])->where('start_time', $value['start_time'])->first();
+            $overlayTime = MovieShow::where('hall_id', $value['hall_id'])->where('start_time', $value['start_time'])->first();
             $movieShow = new MovieShow();
             $movieShow->hall_id = $value['hall_id'];
             $movieShow->movie_id = $value['movie_id'];
@@ -41,7 +41,7 @@ class MovieShowController extends Controller
 
     public function showMoviesToday (Request $request) {
 
-         return MovieShow::all()->where('start_day', $request->curDate);;
+         return MovieShow::where('start_day', $request->curDate)->get();
 
     }
 }
